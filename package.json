@@ -1,0 +1,23 @@
+{
+  "name": "modripservice",
+  "version": "1.0.0",
+  "description": "MoDrip Service",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/MichelleW31/MoDripService.git"
+  },
+  "author": "Michelle Williams",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MichelleW31/MoDripService/issues"
+  },
+  "homepage": "https://github.com/MichelleW31/MoDripService#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {}
+}
