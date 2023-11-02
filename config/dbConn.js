@@ -1,11 +1,13 @@
 import { set, connect } from "mongoose";
 import * as dotenv from "dotenv";
-import logger from "./config/logger.js";
+import logger from "./logger.js";
 
 dotenv.config();
 
 const CONNECTION_URL = process.env.MONGO_CONNECTION_URL;
 const database = process.env.DATABASE_NAME;
+
+console.log(database);
 
 class Database {
   // Creates a new Database instance and establishes a connection.
@@ -18,7 +20,7 @@ class Database {
     set("strictQuery", false);
 
     connect(CONNECTION_URL, {
-      authSource: "user",
+      authSource: "admin",
       ssl: true,
       dbName: database,
     })

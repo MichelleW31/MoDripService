@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import * as dotenv from "dotenv";
+import database from "./config/dbConn.js";
 import logger from "./config/logger.js";
 
 const app = express();
