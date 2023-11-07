@@ -15,6 +15,7 @@
     "require-jsdoc": "off",
     "object-curly-spacing": "off",
     "comma-dangle": "off",
-    "space-before-function-paren": "off"
+    "space-before-function-paren": "off",
+    "max-len": "off"
   }
 }

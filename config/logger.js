@@ -2,7 +2,8 @@ import { createLogger, format, transports, config } from "winston";
 const { combine, timestamp, json, errors, prettyPrint, printf } = format;
 
 const loggerFormat = printf(({ level, message, label, timestamp }) => {
-  return `${timestamp} [${label}] ${level}: ${message}`;
+  // return `${timestamp} [${label}] ${level}: ${message}`;
+  return `${timestamp} ${level}: ${message}`;
 });
 
 export const logger = createLogger({

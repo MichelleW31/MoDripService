@@ -7,8 +7,6 @@ dotenv.config();
 const CONNECTION_URL = process.env.MONGO_CONNECTION_URL;
 const database = process.env.DATABASE_NAME;
 
-console.log(database);
-
 class Database {
   // Creates a new Database instance and establishes a connection.
 
