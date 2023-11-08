@@ -1,11 +1,10 @@
-import express from "express";
-import { createUser } from "../controllers/usersController.js";
-import verifyRoles from "../middleware/verifyRoles.js";
+import express from 'express';
+import { createUser, getUsers } from '../controllers/usersController.js';
+import verifyRoles from '../middleware/verifyRoles.js';
 
 const router = express.Router();
 
-router.route("/").post(createUser);
-// router.route("/").get(getUsers).post(createUser);
+router.route('/').get(getUsers).post(createUser);
 
 // router.route("/:id").get(getUser).put(updateUser).delete(deleteUser);
 
