@@ -33,7 +33,7 @@ export const createUser = async (req, res) => {
       password: hashedPassword,
     });
 
-    res.status(201).json({ success: `New user created!` }); // Successful
+    res.status(201).json({ success: 'New user created!', user }); // Successful
 
     logger.info(`User created: ${user}`);
   } catch (error) {
@@ -44,18 +44,27 @@ export const createUser = async (req, res) => {
 };
 
 export const getUsers = async (req, res) => {
-  const users = await Users.find();
+  let users;
 
-  if (!users) {
-    return res.status(204).json({ message: 'No users found' });
-  } // No content
+  try {
+    users = await Users.find();
 
-  res.json(users);
+    // No users found
+    if (!users) {
+      return res.status(204).json({ message: 'No Users found' });
+    } // No content
+
+    res.status(200).json(users);
+  } catch (error) {
+    logger.error(`Error getting users ${error}`);
+
+    return res.status(500).json({ message: 'Error. Try again later' });
+  }
 };
 
 export const getUser = async (req, res) => {
   if (!req?.params?.id) {
-    return res.status(400).json({ message: 'Id param is required' });
+    return res.status(400).json({ message: 'User is required' });
   }
 
   const { id } = req.params;
@@ -63,15 +72,97 @@ export const getUser = async (req, res) => {
   let user;
 
   try {
-    user = await Users.findOne({ _id: id }).exec();
+    user = await Users.findById(id).exec();
 
+    // No user found
     if (!user) {
       return res.status(204).json({ message: `No User Found ` });
     }
   } catch (error) {
     logger.error(`Error finding user ${error}`);
+
     return res.status(500).json({ message: 'Error. Try again later' });
   }
 
   res.json(user);
 };
+
+export const updateUser = async (req, res) => {
+  if (!req?.params?.id) {
+    return res.status(400).json({ message: 'User is required' });
+  }
+
+  const { id } = req.params;
+  const { firstName, lastName, email, password } = req.body;
+
+  let user;
+
+  try {
+    user = await Users.findById(id).exec();
+
+    // No user found
+    if (!user) {
+      return res.status(204).json({ message: `No User Found ` });
+    }
+
+    // Update if user is found
+
+    if (req.body?.firstName) {
+      user.firstName = firstName;
+    }
+
+    if (req.body?.lastName) {
+      user.lastName = lastName;
+    }
+
+    if (req.body?.email) {
+      user.email = email;
+    }
+
+    if (req.body?.password) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+      user.password = hashedPassword;
+    }
+
+    const result = await user.save();
+
+    logger.info(`User updated: ${user}`);
+
+    return res.status(200).json(result);
+  } catch (error) {
+    logger.error(`Error finding user ${error}`);
+
+    return res.status(500).json({ message: 'Error. Try again later' });
+  }
+};
+
+export const deleteUser = async (req, res) => {
+  if (!req?.params?.id) {
+    return res.status(400).json({ message: 'User Id is required' });
+  }
+
+  const { id } = req.params;
+
+  let user;
+
+  try {
+    user = await Users.findById(id).exec();
+
+    // No user found
+    if (!user) {
+      return res.status(204).json({ message: 'No User Found' });
+    }
+
+    // Delete if user found
+    await user.deleteOne({ _id: req.body.id });
+
+    res.status(200).json({ message: 'User deleted' });
+  } catch (error) {
+    logger.error(`Error deleting user ${error}`);
+
+    return res.status(500).json({ message: 'Error. Try again later' });
+  }
+};
+
+// {"firstName": "", "lastName": "Joe", "email": "rayjoe@gmail.com", "password": "test123"}
