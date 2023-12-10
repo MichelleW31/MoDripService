@@ -8,3 +8,7 @@ export const createUserValidationRules = () => {
     body('password').trim().notEmpty().escape(),
   ];
 };
+
+export const loginValidationRules = () => {
+  return [body('email').isEmail(), body('password').trim().notEmpty().escape()];
+};

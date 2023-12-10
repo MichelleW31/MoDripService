@@ -1,4 +1,4 @@
-import Users from '../models/users.js';
+import User from '../models/userModel.js';
 import logger from '../config/logger.js';
 import bcrypt from 'bcryptjs';
 
@@ -11,7 +11,7 @@ export const createUser = async (req, res) => {
   }
 
   // Check for duplicate usernames in the database
-  const duplicate = await Users.findOne({ email }).exec();
+  const duplicate = await User.findOne({ email }).exec();
 
   if (duplicate) {
     return res
@@ -25,7 +25,7 @@ export const createUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Create and store the new user
-    const user = await Users.create({
+    const user = await User.create({
       // roles is being set by default by the model
       firstName,
       lastName,
@@ -47,7 +47,7 @@ export const getUsers = async (req, res) => {
   let users;
 
   try {
-    users = await Users.find();
+    users = await User.find();
 
     // No users found
     if (!users) {
@@ -72,7 +72,7 @@ export const getUser = async (req, res) => {
   let user;
 
   try {
-    user = await Users.findById(id).exec();
+    user = await User.findById(id).exec();
 
     // No user found
     if (!user) {
@@ -98,7 +98,7 @@ export const updateUser = async (req, res) => {
   let user;
 
   try {
-    user = await Users.findById(id).exec();
+    user = await User.findById(id).exec();
 
     // No user found
     if (!user) {
@@ -147,7 +147,7 @@ export const deleteUser = async (req, res) => {
   let user;
 
   try {
-    user = await Users.findById(id).exec();
+    user = await User.findById(id).exec();
 
     // No user found
     if (!user) {
@@ -164,5 +164,3 @@ export const deleteUser = async (req, res) => {
     return res.status(500).json({ message: 'Error. Try again later' });
   }
 };
-
-// {"firstName": "", "lastName": "Joe", "email": "rayjoe@gmail.com", "password": "test123"}

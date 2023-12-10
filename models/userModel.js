@@ -1,10 +1,10 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-const users = new mongoose.Schema({
+const user = new mongoose.Schema({
   userRole: {
     type: String,
-    enum: ["basic_user", "deluxe_user"],
-    default: "basic_user",
+    enum: ['basic_user', 'deluxe_user'],
+    default: 'basic_user',
   },
   firstName: {
     type: String,
@@ -23,8 +23,9 @@ const users = new mongoose.Schema({
     required: true,
   },
   refreshToken: String,
+  accessToken: String,
 });
 
-const Users = mongoose.model("Users", users);
+const User = mongoose.model('User', user);
 
-export default Users;
+export default User;

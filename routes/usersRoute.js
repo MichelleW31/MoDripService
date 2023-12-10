@@ -19,15 +19,6 @@ router
 
 router.route('/:id').get(getUser).put(updateUser).delete(deleteUser);
 
-// router
-//   .route("/")
-//   .get(verifyRoles(ROLES_LIST.Admin), userController.getUsers)
-//   .put(
-//     verifyRoles(ROLES_LIST.Admin, ROLES_LIST.Editor, ROLES_LIST.User),
-//     userController.updateUser
-//   )
-//   .delete(verifyRoles(ROLES_LIST.Admin), userController.deleteUser);
-
 export default router;
 
 // {"firstName": "MatMichelle", "lastName": "Joe", "email": "matmic@gmail.com", "password": "test123"}
