@@ -60,8 +60,6 @@ export const loginUser = async (req, res) => {
       foundUser.accessToken = accessToken;
       const result = await foundUser.save();
 
-      console.log(result);
-
       res.cookie('jwt', refreshToken, {
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000,
@@ -70,8 +68,9 @@ export const loginUser = async (req, res) => {
         // secure: true,
       });
 
+      console.log(res);
       // Send back access token on login for now. Need to determine what to send back when user logins
-      res.status(200).json({ accessToken });
+      res.status(200).json({ result });
     } else {
       res.status(401).json({ message: 'Incorrect password' }); // Unauthorized User(password doesnt match)
     }
