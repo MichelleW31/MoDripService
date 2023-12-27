@@ -27,7 +27,7 @@ export const loginUser = async (req, res) => {
     const passwordMatch = await bcrypt.compare(password, foundUser.password);
 
     if (passwordMatch) {
-      const roles = Object.values(foundUser.userRole);
+      const roles = foundUser.userRole;
 
       // Create JWTs (access tokens)
       const accessToken = jwt.sign(
@@ -36,6 +36,7 @@ export const loginUser = async (req, res) => {
             name: `${foundUser.firstName} ${foundUser.lastName}`,
             email: foundUser.email,
             roles: roles,
+            id: foundUser._id,
           },
         },
         // @ts-ignore
@@ -68,7 +69,6 @@ export const loginUser = async (req, res) => {
         // secure: true,
       });
 
-      console.log(res);
       // Send back access token on login for now. Need to determine what to send back when user logins
       res.status(200).json({ result });
     } else {
