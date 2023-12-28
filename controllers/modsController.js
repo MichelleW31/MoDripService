@@ -46,3 +46,119 @@ export const createMod = async (req, res) => {
     res.status(500).json({ message: `Error creating mod : ${error.message}` }); // Server error code
   }
 };
+
+// export const getMods = async (req, res) => {
+//   let mods;
+
+//   try {
+//     mods = await Mods.find();
+
+//     // No mods found
+//     if (!mods) {
+//       return res.status(204).json({ message: 'No mods found' });
+//     }
+
+//     res.status(200).json(mods);
+//   } catch (error) {
+//     logger.error(`Error getting mods ${error}`);
+
+//     return res.status(500).json({ message: 'Error. Try again later' });
+//   }
+// };
+
+export const getModsByUserId = async (req, res) => {
+  let mods;
+
+  try {
+    const userId = await getIdFromAccessToken(req);
+
+    mods = await Mods.find({ user_id: userId });
+
+    if (!mods) {
+      return res
+        .status(204)
+        .json({ message: `No mods found for user, ${userId}` });
+    }
+
+    res.status(200).json(mods);
+  } catch (error) {
+    logger.error(`Error getting mods by user id ${error}`);
+
+    return res.status(500).json({ message: 'Error. Try again later' });
+  }
+};
+
+export const updateMod = async (req, res) => {
+  if (!req?.params?.id) {
+    return res.status(400).json({ message: 'Mod id is required' });
+  }
+
+  const { id } = req.params;
+  const { modName, modType, temperature, moisture, humidity } = req.body;
+
+  let mod;
+
+  try {
+    mod = await Mods.findById(id).exec();
+
+    // No mod found
+    if (!mod) {
+      return res.status(204).json({ message: `No Mod Found ` });
+    }
+
+    // Update if mod is found
+    if (req.body?.modName) {
+      mod.modName = modName;
+    }
+
+    if (req.body?.modType) {
+      mod.modType = modType;
+    }
+
+    if (req.body?.temperature) {
+      mod.temperature = temperature;
+    }
+
+    if (req.body?.moisture) {
+      mod.moisture = moisture;
+    }
+
+    if (req.body?.humidity) {
+      mod.humidity = humidity;
+    }
+
+    const result = await mod.save();
+
+    logger.info(`User updated: ${mod}`);
+
+    return res.status(200).json(result);
+  } catch (error) {
+    logger.error(`Error updating user ${error}`);
+
+    return res.status(500).json({ message: 'Error. Try again later' });
+  }
+};
+
+export const deleteMod = async (req, res) => {
+  if (!req?.params?.id) {
+    return res.status(400).json({ message: 'Mod Id is required' });
+  }
+
+  const { id } = req.params;
+
+  let mod;
+
+  try {
+    mod = await Mods.findById(id).exec();
+
+    // No mod found
+    if (!mod) {
+      return res.status(204).json({ message: 'No Mod Found' });
+    }
+
+    // Delete if mod found
+    await Mods.deleteOne({ _id: id });
+
+    res.status(200).json({ message: 'User deleted' });
+  } catch (error) {}
+};

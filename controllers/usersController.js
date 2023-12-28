@@ -89,7 +89,7 @@ export const getUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   if (!req?.params?.id) {
-    return res.status(400).json({ message: 'User is required' });
+    return res.status(400).json({ message: 'User id is required' });
   }
 
   const { id } = req.params;
@@ -155,7 +155,7 @@ export const deleteUser = async (req, res) => {
     }
 
     // Delete if user found
-    await user.deleteOne({ _id: req.body.id });
+    await User.deleteOne({ _id: id });
 
     res.status(200).json({ message: 'User deleted' });
   } catch (error) {

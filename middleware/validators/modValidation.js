@@ -6,3 +6,7 @@ export const createModValidationRules = () => {
     body('modType').trim().notEmpty().escape(),
   ];
 };
+
+export const userIdValidationRules = () => {
+  return [param('id').trim().notEmpty().escape()];
+};

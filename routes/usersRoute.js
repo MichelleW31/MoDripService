@@ -25,3 +25,5 @@ router
   .delete(verifyJWT, deleteUser);
 
 export default router;
+
+// {"email": "mat@gmail.com", "password":"test123"}
