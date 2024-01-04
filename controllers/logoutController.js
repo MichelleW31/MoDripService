@@ -5,7 +5,7 @@ export const logoutUser = async (req, res) => {
   const authHeader = req.headers.cookie;
 
   if (!authHeader) {
-    // 204 means no content to send back. If jwt cookie doesn't exist then thats what we want.
+    // If jwt cookie doesn't exist then thats what we want.
     return res.status(200).json({ message: 'You are logged out!' });
   }
 

@@ -24,5 +24,3 @@ const verifyJWT = (req, res, next) => {
 };
 
 export default verifyJWT;
-
-// {"firstName": "MattieMae", "lastName": "Joe", "email": "matjoe@gmail.com", "password": "test123"}

@@ -51,7 +51,7 @@ export const getUsers = async (req, res) => {
 
     // No users found
     if (!users) {
-      return res.status(204).json({ message: 'No Users found' });
+      return res.status(404).json({ message: 'No Users found' });
     } // No content
 
     res.status(200).json(users);
@@ -76,7 +76,7 @@ export const getUser = async (req, res) => {
 
     // No user found
     if (!user) {
-      return res.status(204).json({ message: `No User Found ` });
+      return res.status(404).json({ message: `No User Found ` });
     }
   } catch (error) {
     logger.error(`Error finding user ${error}`);
@@ -102,7 +102,7 @@ export const updateUser = async (req, res) => {
 
     // No user found
     if (!user) {
-      return res.status(204).json({ message: `No User Found ` });
+      return res.status(404).json({ message: `No User Found ` });
     }
 
     // Update if user is found
@@ -151,7 +151,7 @@ export const deleteUser = async (req, res) => {
 
     // No user found
     if (!user) {
-      return res.status(204).json({ message: 'No User Found' });
+      return res.status(404).json({ message: 'No User Found' });
     }
 
     // Delete if user found

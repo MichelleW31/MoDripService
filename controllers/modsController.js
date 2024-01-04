@@ -76,7 +76,7 @@ export const getModsByUserId = async (req, res) => {
 
     if (!mods) {
       return res
-        .status(204)
+        .status(404)
         .json({ message: `No mods found for user, ${userId}` });
     }
 
@@ -103,7 +103,7 @@ export const updateMod = async (req, res) => {
 
     // No mod found
     if (!mod) {
-      return res.status(204).json({ message: `No Mod Found ` });
+      return res.status(404).json({ message: `No Mod Found` });
     }
 
     // Update if mod is found
@@ -153,7 +153,7 @@ export const deleteMod = async (req, res) => {
 
     // No mod found
     if (!mod) {
-      return res.status(204).json({ message: 'No Mod Found' });
+      return res.status(404).json({ message: 'No Mod Found' });
     }
 
     // Delete if mod found

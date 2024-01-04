@@ -1,4 +1,4 @@
-import { body } from 'express-validator';
+import { body, param } from 'express-validator';
 
 export const createUserValidationRules = () => {
   return [
@@ -11,4 +11,8 @@ export const createUserValidationRules = () => {
 
 export const loginValidationRules = () => {
   return [body('email').isEmail(), body('password').trim().notEmpty().escape()];
+};
+
+export const userIdValidationRules = () => {
+  return [param('id').trim().notEmpty().escape()];
 };

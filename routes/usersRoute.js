@@ -7,7 +7,10 @@ import {
   deleteUser,
 } from '../controllers/usersController.js';
 import { validate } from '../middleware/validators/validator.js';
-import { createUserValidationRules } from '../middleware/validators/userValidation.js';
+import {
+  createUserValidationRules,
+  userIdValidationRules,
+} from '../middleware/validators/userValidation.js';
 import verifyRoles from '../middleware/verifyRoles.js';
 import verifyJWT from '../middleware/verifyJWT.js';
 
@@ -20,9 +23,9 @@ router
 
 router
   .route('/:id')
-  .get(verifyJWT, getUser)
-  .put(verifyJWT, updateUser)
-  .delete(verifyJWT, deleteUser);
+  .get(verifyJWT, userIdValidationRules(), getUser)
+  .put(verifyJWT, userIdValidationRules(), updateUser)
+  .delete(verifyJWT, userIdValidationRules(), deleteUser);
 
 export default router;
 
