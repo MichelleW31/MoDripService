@@ -36,7 +36,7 @@ export const createMod = async (req, res) => {
       temperature: 0,
       moisture: 0,
       humidity: 0,
-      user_id: userId,
+      userId,
     });
 
     res.status(201).json({ success: 'New Mod created!', mod }); // Successful
@@ -72,7 +72,7 @@ export const getModsByUserId = async (req, res) => {
   try {
     const userId = await getIdFromAccessToken(req);
 
-    mods = await Mods.find({ user_id: userId });
+    mods = await Mods.find({ userId });
 
     if (!mods) {
       return res

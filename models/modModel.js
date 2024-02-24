@@ -22,7 +22,7 @@ const mod = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    user_id: {
+    userId: {
       type: String,
       required: true,
     },

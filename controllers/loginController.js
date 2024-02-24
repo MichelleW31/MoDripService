@@ -69,8 +69,22 @@ export const loginUser = async (req, res) => {
         // secure: true,
       });
 
-      // Send back access token on login for now. Need to determine what to send back when user logins
-      res.status(200).json({ result });
+      logger.info(`User logged in ${foundUser}`);
+      const decoded = jwt.verify(
+        foundUser.accessToken,
+        // @ts-ignore
+        process.env.ACCESS_TOKEN_SECRET
+      );
+
+      res.status(200).json({
+        id: foundUser._id,
+        userRole: foundUser.userRole,
+        firstName: foundUser.firstName,
+        lastName: foundUser.lastName,
+        email: foundUser.email,
+        accessToken: foundUser.accessToken,
+        accessTokenExp: decoded.exp,
+      });
     } else {
       res.status(401).json({ message: 'Incorrect password' }); // Unauthorized User(password doesnt match)
     }

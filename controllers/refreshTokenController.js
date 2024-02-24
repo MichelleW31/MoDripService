@@ -51,6 +51,8 @@ export const handleRefreshToken = async (req, res) => {
         res.json({ accessToken });
       }
     );
+
+    logger.info(`Token refreshed for ${foundUser.email}`);
   } catch (error) {
     logger.error(`Error ${error}`);
 

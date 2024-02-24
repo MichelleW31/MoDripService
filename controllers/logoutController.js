@@ -3,8 +3,10 @@ import logger from '../config/logger.js';
 
 export const logoutUser = async (req, res) => {
   const authHeader = req.headers.cookie;
+  console.log(req.headers);
 
   if (!authHeader) {
+    console.log('no header');
     // If jwt cookie doesn't exist then thats what we want.
     return res.status(200).json({ message: 'You are logged out!' });
   }

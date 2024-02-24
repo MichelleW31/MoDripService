@@ -10,16 +10,16 @@ export const createUser = async (req, res) => {
     return res.status(400).json({ message: 'Email and password are required' });
   }
 
-  // Check for duplicate usernames in the database
-  const duplicate = await User.findOne({ email }).exec();
-
-  if (duplicate) {
-    return res
-      .status(409)
-      .json({ message: 'User already exists with this email' }); // Conflict error code
-  }
-
   try {
+    // Check for duplicate usernames in the database
+    const duplicate = await User.findOne({ email }).exec();
+
+    if (duplicate) {
+      return res
+        .status(409)
+        .json({ message: 'User already exists with this email' }); // Conflict error code
+    }
+
     // encrypt the password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -33,7 +33,7 @@ export const createUser = async (req, res) => {
       password: hashedPassword,
     });
 
-    res.status(201).json({ success: 'New user created!', user }); // Successful
+    res.status(201).json({ success: 'New user created!' }); // Successful
 
     logger.info(`User created: ${user}`);
   } catch (error) {
