@@ -42,7 +42,7 @@ export const loginUser = async (req, res) => {
         // @ts-ignore
         process.env.ACCESS_TOKEN_SECRET,
         // 15 minutes for production
-        { expiresIn: '120s' }
+        { expiresIn: '1d' }
       );
 
       const refreshToken = jwt.sign(
@@ -52,7 +52,7 @@ export const loginUser = async (req, res) => {
         // @ts-ignore
         process.env.REFRESH_TOKEN_SECRET,
         // 15 minutes for production
-        { expiresIn: '1d' }
+        { expiresIn: '180d' }
       );
 
       // Saving refreshToken with current user
@@ -61,15 +61,16 @@ export const loginUser = async (req, res) => {
       foundUser.accessToken = accessToken;
       const result = await foundUser.save();
 
-      res.cookie('jwt', refreshToken, {
-        httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000,
-        sameSite: 'None',
-        // Add back in when pushing to production. This blocks Thunderclient testing
-        // secure: true,
-      });
+      // res.cookie('jwt', refreshToken, {
+      //   httpOnly: true,
+      //   maxAge: 24 * 60 * 60 * 1000,
+      //   sameSite: 'None',
+      //   // Add back in when pushing to production. This blocks Thunderclient testing
+      //   // secure: true,
+      // });
 
       logger.info(`User logged in ${foundUser}`);
+
       const decoded = jwt.verify(
         foundUser.accessToken,
         // @ts-ignore
@@ -84,6 +85,7 @@ export const loginUser = async (req, res) => {
         email: foundUser.email,
         accessToken: foundUser.accessToken,
         accessTokenExp: decoded.exp,
+        refreshToken: foundUser.refreshToken,
       });
     } else {
       res.status(401).json({ message: 'Incorrect password' }); // Unauthorized User(password doesnt match)

@@ -1,6 +1,7 @@
 // @ts-nocheck
 import jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
+import logger from '../config/logger.js';
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ const verifyJWT = (req, res, next) => {
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
     if (err) {
+      logger.error(`Error ${err}`);
       return res.sendStatus(403); // invalid token - forbidden
     }
 

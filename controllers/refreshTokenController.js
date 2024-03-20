@@ -6,13 +6,21 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 export const handleRefreshToken = async (req, res) => {
-  const cookie = req.headers.cookie;
+  // const cookie = req.headers.cookie;
+  // console.log(cookie);
 
-  if (!cookie) {
+  // if (!cookie) {
+  //   return res.sendStatus(401); // Unauthorized User
+  // }
+
+  // const refreshToken = cookie.split('=')[1];
+
+  const refreshToken = req.params.refreshToken;
+  console.log(req.params);
+
+  if (!refreshToken) {
     return res.sendStatus(401); // Unauthorized User
   }
-
-  const refreshToken = cookie.split('=')[1];
 
   try {
     // Look for user.
@@ -28,27 +36,29 @@ export const handleRefreshToken = async (req, res) => {
       // @ts-ignore
       process.env.REFRESH_TOKEN_SECRET,
       (err, decoded) => {
-        if (err || foundUser.email !== decoded.email) {
-          return res.sendStatus(403); // Forbidden
-        }
+        if (decoded) {
+          if (err || foundUser.email !== decoded.email) {
+            return res.sendStatus(403); // Forbidden
+          }
 
-        const accessToken = jwt.sign(
-          {
-            user: {
-              name: `${foundUser.firstName} ${foundUser.lastName}`,
-              email: foundUser.email,
-              roles: foundUser.userRole,
-              id: foundUser._id,
+          const accessToken = jwt.sign(
+            {
+              user: {
+                name: `${foundUser.firstName} ${foundUser.lastName}`,
+                email: foundUser.email,
+                roles: foundUser.userRole,
+                id: foundUser._id,
+              },
             },
-          },
-          // @ts-ignore
-          process.env.ACCESS_TOKEN_SECRET,
-          { expiresIn: '120s' }
-        );
+            // @ts-ignore
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: '120s' }
+          );
 
-        foundUser.accessToken = accessToken;
-        foundUser.save();
-        res.json({ accessToken });
+          foundUser.accessToken = accessToken;
+          foundUser.save();
+          res.json({ accessToken, accessTokenExp: decoded.exp });
+        }
       }
     );
 

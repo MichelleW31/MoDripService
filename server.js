@@ -35,3 +35,5 @@ server.listen(PORT, function (err) {
   if (err) logger.error('Error in server setup');
   logger.info(`Server listening on Port ${PORT}`);
 });
+
+// {"temperature": 68}
