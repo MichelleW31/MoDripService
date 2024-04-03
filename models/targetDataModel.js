@@ -1,13 +1,16 @@
 import mongoose from 'mongoose';
 
 const targetData = new mongoose.Schema({
-  targetTemperature: {
+  targetTemperatureMin: {
     type: Number,
   },
-  targetMoisture: {
+  targetTemperatureMax: {
     type: Number,
   },
-  targetHumidity: {
+  targetHumidityMin: {
+    type: Number,
+  },
+  targetHumidityMax: {
     type: Number,
   },
   modId: {

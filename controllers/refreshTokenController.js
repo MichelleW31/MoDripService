@@ -6,6 +6,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 export const handleRefreshToken = async (req, res) => {
+  console.log('hit');
   // const cookie = req.headers.cookie;
   // console.log(cookie);
 
@@ -14,9 +15,7 @@ export const handleRefreshToken = async (req, res) => {
   // }
 
   // const refreshToken = cookie.split('=')[1];
-
   const refreshToken = req.params.refreshToken;
-  console.log(req.params);
 
   if (!refreshToken) {
     return res.sendStatus(401); // Unauthorized User

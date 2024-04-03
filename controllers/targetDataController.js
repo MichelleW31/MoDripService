@@ -7,16 +7,31 @@ export const setTargetData = async (req, res) => {
   }
 
   const { id } = req.params;
-  const { targetTemperature, targetMoisture, targetHumidity } = req.body;
+  const {
+    targetTemperatureMin,
+    targetTemperatureMax,
+    targetHumidityMin,
+    targetHumidityMax,
+  } = req.body;
+
+  // No id
+  if (!id) {
+    return res.status(400).json({ message: 'Mod Id required' });
+  }
 
   // No target data
-  if (!targetTemperature || !targetMoisture || !targetHumidity) {
+  if (
+    !targetTemperatureMin ||
+    !targetTemperatureMax ||
+    !targetHumidityMin ||
+    !targetHumidityMax
+  ) {
     return res.status(400).json({ message: 'Target Data required' });
   }
 
   // Check if target data already exists for mods
   try {
-    const duplicate = await TargetData.findOne({ mod_id: id }).exec();
+    const duplicate = await TargetData.findOne({ modId: id }).exec();
 
     if (duplicate) {
       return res
@@ -31,9 +46,10 @@ export const setTargetData = async (req, res) => {
 
   try {
     const targetData = await TargetData.create({
-      targetTemperature,
-      targetMoisture,
-      targetHumidity,
+      targetTemperatureMin,
+      targetTemperatureMax,
+      targetHumidityMin,
+      targetHumidityMax,
       modId: id,
     });
 
