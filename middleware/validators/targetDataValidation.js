@@ -1,4 +1,4 @@
-import { body, param } from 'express-validator';
+import { body, query } from 'express-validator';
 
 export const setTargetDataValidationRules = () => {
   return [
@@ -10,5 +10,5 @@ export const setTargetDataValidationRules = () => {
 };
 
 export const modIdValidationRules = () => {
-  return [param('id').trim().notEmpty().escape()];
+  return [query('modId').trim().notEmpty().escape()];
 };

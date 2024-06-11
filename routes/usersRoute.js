@@ -19,13 +19,13 @@ const router = express.Router();
 router
   .route('/')
   .get(verifyJWT, getUsers)
-  .post(createUserValidationRules(), validate, createUser);
+  .post(createUserValidationRules(), validate, createUser)
+  .put(verifyJWT, userIdValidationRules(), validate, updateUser);
 
 router
   .route('/:id')
-  .get(verifyJWT, userIdValidationRules(), getUser)
-  .put(verifyJWT, userIdValidationRules(), updateUser)
-  .delete(verifyJWT, userIdValidationRules(), deleteUser);
+  .get(verifyJWT, userIdValidationRules(), validate, getUser)
+  .delete(verifyJWT, userIdValidationRules(), validate, deleteUser);
 
 export default router;
 

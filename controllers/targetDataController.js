@@ -63,18 +63,53 @@ export const setTargetData = async (req, res) => {
   }
 };
 
+export const getTargetDataById = async (req, res) => {
+  const modId = req.query.modId;
+
+  if (!modId) {
+    return res.status(400).json({ message: 'Mod id is required' });
+  }
+
+  let targetData;
+
+  try {
+    targetData = await TargetData.findOne({ modId: modId }).exec();
+
+    console.log(targetData);
+
+    if (targetData.length === 0) {
+      logger.error(`No target data found`);
+      return res.status(404).json({ message: `No Target data found` });
+    }
+
+    res.status(200).json(targetData);
+  } catch (error) {
+    logger.error(`Error getting target data`);
+
+    return res
+      .status(500)
+      .json({ message: 'Error getting target data. Try again later' });
+  }
+};
+
+// Double check if this work from front end
 export const updateTargetData = async (req, res) => {
   if (!req?.params?.id) {
     return res.status(400).json({ message: 'Mod id is required' });
   }
 
   const { id } = req.params;
-  const { targetTemperature, targetMoisture, targetHumidity } = req.body;
+  const {
+    targetTemperatureMin,
+    targetTemperatureMax,
+    targetHumidityMin,
+    targetHumidityMax,
+  } = req.body;
 
   let targetData;
 
   try {
-    targetData = await TargetData.findOne({ modId: id }).exec();
+    targetData = await TargetData.findById({ modId: id }).exec();
 
     // No existing target data found
     if (!targetData) {
@@ -82,16 +117,20 @@ export const updateTargetData = async (req, res) => {
     }
 
     // Update if target data is found
-    if (req.body?.targetTemperature) {
-      targetData.targetTemperature = targetTemperature;
+    if (req.body?.targetTemperatureMin) {
+      targetData.targetTemperatureMin = targetTemperatureMin;
     }
 
-    if (req.body?.targetMoisture) {
-      targetData.targetMoisture = targetMoisture;
+    if (req.body?.targetTemperatureMax) {
+      targetData.targetTemperatureMax = targetTemperatureMax;
     }
 
-    if (req.body?.targetHumidity) {
-      targetData.targetHumidity = targetHumidity;
+    if (req.body?.targetHumidityMin) {
+      targetData.targetHumidityMin = targetHumidityMin;
+    }
+
+    if (req.body?.targetHumidityMax) {
+      targetData.targetHumidityMax = targetHumidityMax;
     }
 
     const result = await targetData.save();

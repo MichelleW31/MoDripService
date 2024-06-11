@@ -1,4 +1,4 @@
-import { body, param } from 'express-validator';
+import { body, param, query } from 'express-validator';
 
 export const createUserValidationRules = () => {
   return [
@@ -14,5 +14,5 @@ export const loginValidationRules = () => {
 };
 
 export const userIdValidationRules = () => {
-  return [param('id').trim().notEmpty().escape()];
+  return [query('id').trim().notEmpty().escape()];
 };

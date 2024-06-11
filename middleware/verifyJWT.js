@@ -26,3 +26,5 @@ const verifyJWT = (req, res, next) => {
 };
 
 export default verifyJWT;
+
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5hbWUiOiJNaWNoZWxsZSBXaWxsaWFtcyIsImVtYWlsIjoibWlAZ21haWwuY29tIiwicm9sZXMiOiJiYXNpY191c2VyIiwiaWQiOiI2NTRhYzhlOTc0YzI1NmM0Y2UzOWVkNGYifSwiaWF0IjoxNzEyNjAyNTY1LCJleHAiOjE3MTI2MDI2ODV9.a7Tg1EfePWR6J2IjVLAjr42h_K1NbB6pyhHmxAMFVm0

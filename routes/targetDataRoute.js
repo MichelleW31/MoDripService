@@ -2,6 +2,7 @@ import express from 'express';
 import {
   setTargetData,
   updateTargetData,
+  getTargetDataById,
 } from '../controllers/targetDataController.js';
 import { validate } from '../middleware/validators/validator.js';
 import {
@@ -11,6 +12,10 @@ import {
 import verifyJWT from '../middleware/verifyJWT.js';
 
 const router = express.Router();
+
+router
+  .route('/')
+  .get(verifyJWT, modIdValidationRules(), validate, getTargetDataById);
 
 router
   .route('/:id')

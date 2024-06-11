@@ -88,12 +88,12 @@ export const getUser = async (req, res) => {
 };
 
 export const updateUser = async (req, res) => {
-  if (!req?.params?.id) {
+  if (!req?.query?.id) {
     return res.status(400).json({ message: 'User id is required' });
   }
 
-  const { id } = req.params;
-  const { firstName, lastName, email, password } = req.body;
+  const { id } = req.query;
+  const { firstName, lastName, email, currentPassword, newPassword } = req.body;
 
   let user;
 
@@ -119,10 +119,16 @@ export const updateUser = async (req, res) => {
       user.email = email;
     }
 
-    if (req.body?.password) {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
-      user.password = hashedPassword;
+    if (req.body?.newPassword) {
+      if (currentPassword === user.password) {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+        user.password = hashedPassword;
+      } else {
+        logger.error('Old password does not match user password');
+
+        return res.status(400).json({ message: 'Old password is incorrect.' });
+      }
     }
 
     const result = await user.save();

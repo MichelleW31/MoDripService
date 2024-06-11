@@ -88,6 +88,7 @@ export const getModsByUserId = async (req, res) => {
   }
 };
 
+// Double check if this work from front end
 export const updateMod = async (req, res) => {
   if (!req?.params?.id) {
     return res.status(400).json({ message: 'Mod id is required' });
