@@ -64,20 +64,18 @@ export const setTargetData = async (req, res) => {
 };
 
 export const getTargetDataById = async (req, res) => {
-  const modId = req.query.modId;
-
-  if (!modId) {
+  if (!req?.query?.modId) {
     return res.status(400).json({ message: 'Mod id is required' });
   }
+
+  const { modId } = req.query;
 
   let targetData;
 
   try {
     targetData = await TargetData.findOne({ modId: modId }).exec();
 
-    console.log(targetData);
-
-    if (targetData.length === 0) {
+    if (!targetData) {
       logger.error(`No target data found`);
       return res.status(404).json({ message: `No Target data found` });
     }
@@ -94,11 +92,12 @@ export const getTargetDataById = async (req, res) => {
 
 // Double check if this work from front end
 export const updateTargetData = async (req, res) => {
-  if (!req?.params?.id) {
+  if (!req?.query?.modId) {
     return res.status(400).json({ message: 'Mod id is required' });
   }
 
-  const { id } = req.params;
+  const { modId } = req.query;
+
   const {
     targetTemperatureMin,
     targetTemperatureMax,
@@ -109,7 +108,7 @@ export const updateTargetData = async (req, res) => {
   let targetData;
 
   try {
-    targetData = await TargetData.findById({ modId: id }).exec();
+    targetData = await TargetData.findOne({ modId: modId }).exec();
 
     // No existing target data found
     if (!targetData) {
@@ -137,7 +136,7 @@ export const updateTargetData = async (req, res) => {
 
     logger.info(`Target data updated: ${targetData}`);
 
-    return res.status(200).json({ success: 'Target data updated!', result });
+    return res.status(200).json(result);
   } catch (error) {
     logger.error(`Error updating target data ${error}`);
 

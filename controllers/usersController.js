@@ -106,7 +106,6 @@ export const updateUser = async (req, res) => {
     }
 
     // Update if user is found
-
     if (req.body?.firstName) {
       user.firstName = firstName;
     }
@@ -120,7 +119,13 @@ export const updateUser = async (req, res) => {
     }
 
     if (req.body?.newPassword) {
-      if (currentPassword === user.password) {
+      // Evaluate password (authorize login)
+      const passwordMatch = await bcrypt.compare(
+        currentPassword,
+        user.password
+      );
+
+      if (passwordMatch) {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(newPassword, salt);
         user.password = hashedPassword;
@@ -144,11 +149,11 @@ export const updateUser = async (req, res) => {
 };
 
 export const deleteUser = async (req, res) => {
-  if (!req?.params?.id) {
-    return res.status(400).json({ message: 'User Id is required' });
+  if (!req?.query?.id) {
+    return res.status(400).json({ message: 'User id is required' });
   }
 
-  const { id } = req.params;
+  const { id } = req.query;
 
   let user;
 

@@ -1,4 +1,4 @@
-import { body, param } from 'express-validator';
+import { body, query } from 'express-validator';
 
 export const createModValidationRules = () => {
   return [
@@ -7,6 +7,6 @@ export const createModValidationRules = () => {
   ];
 };
 
-export const userIdValidationRules = () => {
-  return [param('id').trim().notEmpty().escape()];
+export const modIdValidationRules = () => {
+  return [query('id').trim().notEmpty().escape()];
 };

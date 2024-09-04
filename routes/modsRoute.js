@@ -8,7 +8,7 @@ import {
 import { validate } from '../middleware/validators/validator.js';
 import {
   createModValidationRules,
-  userIdValidationRules,
+  modIdValidationRules,
 } from '../middleware/validators/modValidation.js';
 import verifyJWT from '../middleware/verifyJWT.js';
 
@@ -18,12 +18,14 @@ router
   .route('/')
   //   .get(verifyJWT, getMods)
   .get(verifyJWT, getModsByUserId)
-  .post(verifyJWT, createModValidationRules(), validate, createMod);
+  .post(verifyJWT, createModValidationRules(), validate, createMod)
+  .put(verifyJWT, modIdValidationRules(), updateMod)
+  .delete(verifyJWT, modIdValidationRules(), deleteMod);
 
-router
-  .route('/:id')
-  .put(verifyJWT, userIdValidationRules(), updateMod)
-  .delete(verifyJWT, userIdValidationRules(), deleteMod);
+// router
+//   .route('/:id')
+//   .put(verifyJWT, userIdValidationRules(), updateMod)
+//   .delete(verifyJWT, userIdValidationRules(), deleteMod);
 
 export default router;
 // {"modName":"Avi", "modType":"Avocado Plant"}

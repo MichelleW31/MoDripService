@@ -20,12 +20,10 @@ router
   .route('/')
   .get(verifyJWT, getUsers)
   .post(createUserValidationRules(), validate, createUser)
-  .put(verifyJWT, userIdValidationRules(), validate, updateUser);
-
-router
-  .route('/:id')
-  .get(verifyJWT, userIdValidationRules(), validate, getUser)
+  .put(verifyJWT, userIdValidationRules(), validate, updateUser)
   .delete(verifyJWT, userIdValidationRules(), validate, deleteUser);
+
+router.route('/:id').get(verifyJWT, userIdValidationRules(), validate, getUser);
 
 export default router;
 

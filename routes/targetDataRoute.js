@@ -15,7 +15,8 @@ const router = express.Router();
 
 router
   .route('/')
-  .get(verifyJWT, modIdValidationRules(), validate, getTargetDataById);
+  .get(verifyJWT, modIdValidationRules(), validate, getTargetDataById)
+  .put(verifyJWT, modIdValidationRules(), validate, updateTargetData);
 
 router
   .route('/:id')

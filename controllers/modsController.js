@@ -90,12 +90,12 @@ export const getModsByUserId = async (req, res) => {
 
 // Double check if this work from front end
 export const updateMod = async (req, res) => {
-  if (!req?.params?.id) {
+  if (!req?.query?.id) {
     return res.status(400).json({ message: 'Mod id is required' });
   }
 
-  const { id } = req.params;
-  const { modName, modType, temperature, moisture, humidity } = req.body;
+  const { id } = req.query;
+  const { modName, modType } = req.body;
 
   let mod;
 
@@ -114,18 +114,6 @@ export const updateMod = async (req, res) => {
 
     if (req.body?.modType) {
       mod.modType = modType;
-    }
-
-    if (req.body?.temperature) {
-      mod.temperature = temperature;
-    }
-
-    if (req.body?.moisture) {
-      mod.moisture = moisture;
-    }
-
-    if (req.body?.humidity) {
-      mod.humidity = humidity;
     }
 
     const result = await mod.save();
