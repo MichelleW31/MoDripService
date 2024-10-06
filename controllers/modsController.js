@@ -129,11 +129,11 @@ export const updateMod = async (req, res) => {
 };
 
 export const deleteMod = async (req, res) => {
-  if (!req?.params?.id) {
+  if (!req?.query?.id) {
     return res.status(400).json({ message: 'Mod Id is required' });
   }
 
-  const { id } = req.params;
+  const { id } = req.query;
 
   let mod;
 
@@ -148,6 +148,6 @@ export const deleteMod = async (req, res) => {
     // Delete if mod found
     await Mods.deleteOne({ _id: id });
 
-    res.status(200).json({ message: 'User deleted' });
+    res.status(200).json({ message: 'Mod deleted' });
   } catch (error) {}
 };

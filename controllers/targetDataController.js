@@ -2,11 +2,12 @@ import TargetData from '../models/targetDataModel.js';
 import logger from '../config/logger.js';
 
 export const setTargetData = async (req, res) => {
-  if (!req?.params?.id) {
+  if (!req?.query?.modId) {
     return res.status(400).json({ message: 'Mod id is required' });
   }
 
-  const { id } = req.params;
+  const { modId } = req.query;
+
   const {
     targetTemperatureMin,
     targetTemperatureMax,
@@ -14,8 +15,8 @@ export const setTargetData = async (req, res) => {
     targetHumidityMax,
   } = req.body;
 
-  // No id
-  if (!id) {
+  // No mod id
+  if (!modId) {
     return res.status(400).json({ message: 'Mod Id required' });
   }
 
@@ -31,7 +32,7 @@ export const setTargetData = async (req, res) => {
 
   // Check if target data already exists for mods
   try {
-    const duplicate = await TargetData.findOne({ modId: id }).exec();
+    const duplicate = await TargetData.findOne({ modId: modId }).exec();
 
     if (duplicate) {
       return res
@@ -50,7 +51,7 @@ export const setTargetData = async (req, res) => {
       targetTemperatureMax,
       targetHumidityMin,
       targetHumidityMax,
-      modId: id,
+      modId: modId,
     });
 
     res.status(201).json({ success: 'Target data set!', targetData }); // Successful
