@@ -110,6 +110,7 @@ export const getModsByUserId = async (req, res) => {
 // Double check if this work from front end
 export const updateMod = async (req, res) => {
   if (!req?.query?.id) {
+    logger.info('Mod id not included');
     return res.status(400).json({ message: 'Mod id is required' });
   }
 
@@ -123,6 +124,7 @@ export const updateMod = async (req, res) => {
 
     // No mod found
     if (!mod) {
+      logger.info('No Mod Found');
       return res.status(404).json({ message: `No Mod Found` });
     }
 
