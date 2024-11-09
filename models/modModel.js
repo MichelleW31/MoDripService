@@ -26,6 +26,7 @@ const mod = new mongoose.Schema(
       type: String,
       required: true,
     },
+    accessToken: String,
   },
   { timestamps: true }
 );

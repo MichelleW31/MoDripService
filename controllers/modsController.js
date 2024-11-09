@@ -1,6 +1,8 @@
 import Mods from '../models/modModel.js';
 import { getIdFromAccessToken } from '../util/accessToken.js';
 import logger from '../config/logger.js';
+import jwt from 'jsonwebtoken';
+import * as dotenv from 'dotenv';
 
 export const createMod = async (req, res) => {
   const { modName, modType } = req.body;
@@ -38,6 +40,23 @@ export const createMod = async (req, res) => {
       humidity: 0,
       userId,
     });
+
+    // Create JWTs (access tokens)
+    const accessToken = jwt.sign(
+      {
+        mod: {
+          modName: mod.modName,
+          modType: mod.modType,
+          modId: mod._id,
+        },
+      },
+      // @ts-ignore
+      process.env.ACCESS_TOKEN_SECRET,
+      // 15 minutes for production
+      { expiresIn: '1d' }
+    );
+
+    mod.accessToken = accessToken;
 
     res.status(201).json({ success: 'New Mod created!', mod }); // Successful
   } catch (error) {
@@ -95,7 +114,7 @@ export const updateMod = async (req, res) => {
   }
 
   const { id } = req.query;
-  const { modName, modType } = req.body;
+  const { modName, modType, moisture } = req.body;
 
   let mod;
 
@@ -114,6 +133,10 @@ export const updateMod = async (req, res) => {
 
     if (req.body?.modType) {
       mod.modType = modType;
+    }
+
+    if (req.body?.moisture) {
+      mod.moisture = moisture;
     }
 
     const result = await mod.save();
