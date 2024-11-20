@@ -28,5 +28,3 @@ router
 //   .delete(verifyJWT, userIdValidationRules(), deleteMod);
 
 export default router;
-// {"modName":"Avi", "modType":"Avocado Plant"}
-// {"modName":"Sego"}

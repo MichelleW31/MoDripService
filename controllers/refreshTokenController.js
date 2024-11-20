@@ -17,6 +17,7 @@ export const handleRefreshToken = async (req, res) => {
     const foundUser = await User.findOne({ refreshToken }).exec();
 
     if (!foundUser) {
+      logger.error(`${refreshToken} not matched to user`);
       return res.sendStatus(403); // Forbidden
     }
 
