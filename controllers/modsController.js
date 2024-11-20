@@ -58,6 +58,8 @@ export const createMod = async (req, res) => {
 
     mod.accessToken = accessToken;
 
+    await mod.save();
+
     res.status(201).json({ success: 'New Mod created!', mod }); // Successful
   } catch (error) {
     logger.error(`Error creating mod: ${modName}`, error);
