@@ -53,7 +53,7 @@ export const createMod = async (req, res) => {
       // @ts-ignore
       process.env.ACCESS_TOKEN_SECRET,
       // 15 minutes for production
-      { expiresIn: '1d' }
+      { expiresIn: '100d' }
     );
 
     mod.accessToken = accessToken;
