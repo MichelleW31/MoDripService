@@ -1,8 +1,12 @@
+// BASE MODULES
+import jwt from 'jsonwebtoken';
+import * as dotenv from 'dotenv';
+
+// CUSTOM MODULES
 import Mods from '../models/modModel.js';
 import { getIdFromAccessToken } from '../util/accessToken.js';
 import logger from '../config/logger.js';
-import jwt from 'jsonwebtoken';
-import * as dotenv from 'dotenv';
+import getMoisturePercentage from '../middleware/convertSensorReadings.js';
 
 export const createMod = async (req, res) => {
   const { modName, modType } = req.body;
@@ -68,25 +72,6 @@ export const createMod = async (req, res) => {
   }
 };
 
-// export const getMods = async (req, res) => {
-//   let mods;
-
-//   try {
-//     mods = await Mods.find();
-
-//     // No mods found
-//     if (!mods) {
-//       return res.status(204).json({ message: 'No mods found' });
-//     }
-
-//     res.status(200).json(mods);
-//   } catch (error) {
-//     logger.error(`Error getting mods ${error}`);
-
-//     return res.status(500).json({ message: 'Error. Try again later' });
-//   }
-// };
-
 export const getModsByUserId = async (req, res) => {
   let mods;
 
@@ -140,7 +125,7 @@ export const updateMod = async (req, res) => {
     }
 
     if (req.body?.moisture) {
-      mod.moisture = moisture;
+      mod.moisture = getMoisturePercentage(moisture);
     }
 
     const result = await mod.save();
