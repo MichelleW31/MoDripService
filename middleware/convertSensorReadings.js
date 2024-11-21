@@ -15,7 +15,9 @@ const getMoisturePercentage = (moistureValue) => {
   } else if (moistureValue < 1400) {
     moisturePercentage = 100;
   } else {
-    moisturePercentage = ((maxValue - moistureValue) / moistureRange) * 100;
+    moisturePercentage = round(
+      ((maxValue - moistureValue) / moistureRange) * 100
+    );
   }
 
   return moisturePercentage;
