@@ -1,8 +1,6 @@
 import logger from '../config/logger.js';
 
-const getMoisturePercentage = (moistureValue) => {
-  logger.info('moisture value', moistureValue);
-
+export const getMoisturePercentage = (moistureValue) => {
   // Get Range
   const minValue = 1400;
   const maxValue = 2900;
@@ -23,4 +21,6 @@ const getMoisturePercentage = (moistureValue) => {
   return moisturePercentage;
 };
 
-export default getMoisturePercentage;
+export const convertToFahrenheit = (temperatureValue) => {
+  return (temperatureValue * 9) / 5 + 32;
+};
