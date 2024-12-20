@@ -9,6 +9,7 @@ import logger from '../config/logger.js';
 import {
   convertToFahrenheit,
   getMoisturePercentage,
+  roundHumidity,
 } from '../middleware/convertSensorReadings.js';
 
 export const createMod = async (req, res) => {
@@ -136,7 +137,7 @@ export const updateMod = async (req, res) => {
     }
 
     if (req.body?.humidity) {
-      mod.humidity = humidity;
+      mod.humidity = roundHumidity(humidity);
     }
 
     const result = await mod.save();
