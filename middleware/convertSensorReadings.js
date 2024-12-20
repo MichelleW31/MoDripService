@@ -22,5 +22,5 @@ export const getMoisturePercentage = (moistureValue) => {
 };
 
 export const convertToFahrenheit = (temperatureValue) => {
-  return (temperatureValue * 9) / 5 + 32;
+  return Math.round((temperatureValue * 9) / 5 + 32);
 };
