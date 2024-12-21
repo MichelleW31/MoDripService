@@ -6,11 +6,7 @@ import * as dotenv from 'dotenv';
 import Mods from '../models/modModel.js';
 import { getIdFromAccessToken } from '../util/accessToken.js';
 import logger from '../config/logger.js';
-import {
-  convertToFahrenheit,
-  getMoisturePercentage,
-  roundHumidity,
-} from '../middleware/convertSensorReadings.js';
+import getMoisturePercentage from '../middleware/convertSensorReadings.js';
 
 export const createMod = async (req, res) => {
   const { modName, modType } = req.body;
@@ -106,7 +102,7 @@ export const updateMod = async (req, res) => {
   }
 
   const { id } = req.query;
-  const { modName, modType, moisture, temperature, humidity } = req.body;
+  const { modName, modType, moisture } = req.body;
 
   let mod;
 
@@ -131,14 +127,6 @@ export const updateMod = async (req, res) => {
     if (req.body?.moisture) {
       mod.moisture = getMoisturePercentage(moisture);
     }
-
-    // if (req.body?.temperature) {
-    //   mod.temperature = convertToFahrenheit(temperature);
-    // }
-
-    // if (req.body?.humidity) {
-    //   mod.humidity = roundHumidity(humidity);
-    // }
 
     const result = await mod.save();
 
