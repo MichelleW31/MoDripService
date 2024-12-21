@@ -132,13 +132,13 @@ export const updateMod = async (req, res) => {
       mod.moisture = getMoisturePercentage(moisture);
     }
 
-    if (req.body?.temperature) {
-      mod.temperature = convertToFahrenheit(temperature);
-    }
+    // if (req.body?.temperature) {
+    //   mod.temperature = convertToFahrenheit(temperature);
+    // }
 
-    if (req.body?.humidity) {
-      mod.humidity = roundHumidity(humidity);
-    }
+    // if (req.body?.humidity) {
+    //   mod.humidity = roundHumidity(humidity);
+    // }
 
     const result = await mod.save();
 
