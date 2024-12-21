@@ -102,7 +102,7 @@ export const updateMod = async (req, res) => {
   }
 
   const { id } = req.query;
-  const { modName, modType, moisture } = req.body;
+  const { modName, modType, moisture, temperature, humidity } = req.body;
 
   let mod;
 
@@ -127,6 +127,15 @@ export const updateMod = async (req, res) => {
     if (req.body?.moisture) {
       mod.moisture = getMoisturePercentage(moisture);
     }
+
+    if (req.body?.temperature) {
+      mod.temperature = temperature;
+    }
+
+    if (req.body?.humidity) {
+      mod.humidity = humidity;
+    }
+
 
     const result = await mod.save();
 
