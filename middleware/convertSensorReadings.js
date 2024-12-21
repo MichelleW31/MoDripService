@@ -1,6 +1,6 @@
 import logger from '../config/logger.js';
 
-const getMoisturePercentage = (moistureValue) => {
+export const getMoisturePercentage = (moistureValue) => {
   logger.info('moisture value', moistureValue);
 
   // Get Range
@@ -23,4 +23,6 @@ const getMoisturePercentage = (moistureValue) => {
   return moisturePercentage;
 };
 
-export default getMoisturePercentage;
+export const convertToFahrenheit = (temperatureValue) => Math.round(temperatureValue * 9 /5 + 32) 
+
+export const roundHumidity = (humidityValue) => Math.round(humidityValue)
