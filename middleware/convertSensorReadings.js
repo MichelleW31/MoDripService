@@ -1,6 +1,8 @@
 import logger from '../config/logger.js';
 
 const getMoisturePercentage = (moistureValue) => {
+  logger.info('moisture value', moistureValue);
+
   // Get Range
   const minValue = 1400;
   const maxValue = 2900;

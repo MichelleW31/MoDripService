@@ -42,13 +42,12 @@ const connectDB = (wsServer) => {
     modChangeStream.on('change', (modsUpdate) => {
       logger.info('Change occurred in mods collection:', modsUpdate);
 
+      console.log(modsUpdate);
+
       // Send change to connected clients
       wsServer.clients.forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
-          logger.info('Client is connected, info is sent');
           client.send(JSON.stringify(modsUpdate));
-        } else {
-          logger.info('Client was not open');
         }
       });
     });
