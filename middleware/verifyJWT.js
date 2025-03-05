@@ -17,7 +17,7 @@ const verifyJWT = (req, res, next) => {
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
     if (err) {
       logger.error(`Error ${err}`);
-      loigger.info(`Access token: ${authHeader}`)
+      logger.info(`Access token: ${authHeader}`)
       return res.sendStatus(403); // invalid token - forbidden
     }
 
