@@ -5,7 +5,7 @@ export const createUserValidationRules = () => {
     body('firstName').trim().notEmpty().escape(),
     body('lastName').trim().notEmpty().escape(),
     body('email').isEmail(),
-    body('password').trim().notEmpty().escape(),
+    body('uid').trim().notEmpty().escape(),
   ];
 };
 

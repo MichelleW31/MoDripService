@@ -3,14 +3,10 @@ import logger from '../config/logger.js';
 import bcrypt from 'bcryptjs';
 
 export const createUser = async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
-
-  // No email or password
-  if (!email || !password) {
-    return res.status(400).json({ message: 'Email and password are required' });
-  }
+  const { firstName, lastName, email, uid } = req.body;
 
   try {
+    // I shouldn't need this due to firebase catching duplicates on the client. But I'll keep for now 3/11
     // Check for duplicate usernames in the database
     const duplicate = await User.findOne({ email }).exec();
 
@@ -20,17 +16,13 @@ export const createUser = async (req, res) => {
         .json({ message: 'User already exists with this email' }); // Conflict error code
     }
 
-    // encrypt the password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
     // Create and store the new user
     const user = await User.create({
       // roles is being set by default by the model
       firstName,
       lastName,
       email,
-      password: hashedPassword,
+      uid
     });
 
     res.status(201).json({ success: 'New user created!' }); // Successful

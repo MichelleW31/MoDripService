@@ -18,12 +18,10 @@ const user = new mongoose.Schema({
     type: String,
     required: true,
   },
-  password: {
+  uid: {
     type: String,
     required: true,
   },
-  refreshToken: String,
-  accessToken: String,
 });
 
 const User = mongoose.model('User', user);
