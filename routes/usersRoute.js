@@ -27,4 +27,3 @@ router.route('/:id').get(verifyJWT, userIdValidationRules(), validate, getUser);
 
 export default router;
 
-// {"email": "mat@gmail.com", "password":"test123"}
