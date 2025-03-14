@@ -12,18 +12,22 @@ const verifyJWT = (req, res, next) => {
     return res.sendStatus(401); // Unauthorized
   }
 
+
+
   const token = authHeader.split(' ')[1];
 
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-    if (err) {
-      logger.error(`Error ${err}`);
-      logger.info(`Access token: ${authHeader}`)
-      return res.sendStatus(403); // invalid token - forbidden
-    }
+  logger.info(`AUTH TOKEN ${token}`)
 
-    req.user = decoded.user;
-    next();
-  });
+  // jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+  //   if (err) {
+  //     logger.error(`Error ${err}`);
+  //     logger.info(`Access token: ${authHeader}`)
+  //     return res.sendStatus(403); // invalid token - forbidden
+  //   }
+
+  //   req.user = decoded.user;
+  //   next();
+  // });
 };
 
 export default verifyJWT;
