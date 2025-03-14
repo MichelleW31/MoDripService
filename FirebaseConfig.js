@@ -1,6 +1,8 @@
 import * as dotenv from 'dotenv';
 
-export const admin = require('firebase-admin');
+import admin from 'firebase-admin';
+
+// export const admin = require('firebase-admin');
 
 dotenv.config();
 
@@ -11,3 +13,5 @@ admin.initializeApp({
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
   }),
 });
+
+export { admin };
