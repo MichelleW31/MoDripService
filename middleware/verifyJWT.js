@@ -21,15 +21,15 @@ const verifyJWT = async (req, res, next) => {
     logger.info(
       `Auth Token verified for ${decodedToken.email}:${decodedToken.uid}`
     );
-
-    req.user = decodedToken;
-    next();
   } catch (error) {
     logger.error(`Error ${err}`);
     logger.info(`Access token: ${authHeader}`);
 
     return res.sendStatus(403); // invalid token - forbidden
   }
+
+  req.user = decodedToken;
+  next();
 
   // jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
   //   if (err) {
