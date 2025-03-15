@@ -18,6 +18,8 @@ const verifyJWT = async (req, res, next) => {
   try {
     const decodedToken = await admin.auth().verifyIdToken(token);
 
+    req.user = decodedToken;
+
     logger.info(
       `Auth Token verified for ${decodedToken.email}:${decodedToken.uid}`
     );
@@ -28,7 +30,6 @@ const verifyJWT = async (req, res, next) => {
     return res.sendStatus(403); // invalid token - forbidden
   }
 
-  req.user = decodedToken;
   next();
 
   // jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
