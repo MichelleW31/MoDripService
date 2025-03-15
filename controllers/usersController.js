@@ -22,7 +22,7 @@ export const createUser = async (req, res) => {
       firstName,
       lastName,
       email,
-      uid
+      uid,
     });
 
     res.status(201).json({ success: 'New user created!' }); // Successful
@@ -55,6 +55,7 @@ export const getUsers = async (req, res) => {
 };
 
 export const getUser = async (req, res) => {
+  console.log('request', req);
   if (!req?.params?.uid) {
     return res.status(400).json({ message: 'User is required' });
   }
