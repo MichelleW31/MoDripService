@@ -56,18 +56,16 @@ export const getUsers = async (req, res) => {
 };
 
 export const getUser = async (req, res) => {
-  logger.info('request', req);
-
-  if (!req?.params?.uid) {
+  if (!req?.params?.id) {
     return res.status(400).json({ message: 'User is required' });
   }
 
-  const { uid } = req.params;
+  const { id } = req.params;
 
   let user;
 
   try {
-    user = await User.findOne(uid).exec();
+    user = await User.findOne(id).exec();
 
     // No user found
     if (!user) {
