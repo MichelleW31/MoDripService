@@ -18,7 +18,9 @@ const verifyJWT = async (req, res, next) => {
   try {
     const decodedToken = await admin.auth().verifyIdToken(token);
 
-    logger.info(`Auth Token verified ${decodedToken}`);
+    logger.info(
+      `Auth Token verified for ${decodedToken.email}:${decodedToken.uid}`
+    );
   } catch (error) {
     logger.error(`Error ${err}`);
     logger.info(`Access token: ${authHeader}`);
