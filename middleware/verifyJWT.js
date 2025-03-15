@@ -2,7 +2,7 @@
 import jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
 import logger from '../config/logger.js';
-// import { admin } from '../FirebaseConfig.js';
+import { admin } from '../FirebaseConfig.js';
 
 dotenv.config();
 
@@ -13,18 +13,18 @@ const verifyJWT = async (req, res, next) => {
     return res.sendStatus(401); // Unauthorized
   }
 
-  // const token = authHeader.split(' ')[1];
+  const token = authHeader.split(' ')[1];
 
-  // try {
-  // const decodedToken = await admin.auth().verifyIdToken(token);
+  try {
+    const decodedToken = await admin.auth().verifyIdToken(token);
 
-  //   logger.info(`Auth Token verified ${decodedToken}`);
-  // } catch (error) {
-  //   logger.error(`Error ${err}`);
-  //   logger.info(`Access token: ${authHeader}`);
+    logger.info(`Auth Token verified ${decodedToken}`);
+  } catch (error) {
+    logger.error(`Error ${err}`);
+    logger.info(`Access token: ${authHeader}`);
 
-  //   return res.sendStatus(403); // invalid token - forbidden
-  // }
+    return res.sendStatus(403); // invalid token - forbidden
+  }
 
   // jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
   //   if (err) {
