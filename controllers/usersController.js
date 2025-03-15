@@ -55,7 +55,8 @@ export const getUsers = async (req, res) => {
 };
 
 export const getUser = async (req, res) => {
-  console.log('request', req);
+  logger.info('request', req);
+
   if (!req?.params?.uid) {
     return res.status(400).json({ message: 'User is required' });
   }
