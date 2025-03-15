@@ -36,6 +36,7 @@ export const createUser = async (req, res) => {
 };
 
 export const getUsers = async (req, res) => {
+  logger.info('get users request', req);
   let users;
 
   try {
