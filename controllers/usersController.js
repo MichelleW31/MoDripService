@@ -56,6 +56,8 @@ export const getUsers = async (req, res) => {
 };
 
 export const getUser = async (req, res) => {
+  logger.info('request', req);
+
   if (!req?.params?.id) {
     return res.status(400).json({ message: 'User is required' });
   }
