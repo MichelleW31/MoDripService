@@ -1,17 +1,17 @@
-import * as dotenv from 'dotenv';
+// import * as dotenv from 'dotenv';
 
-import admin from 'firebase-admin';
+// import admin from 'firebase-admin';
 
-// export const admin = require('firebase-admin');
+// // export const admin = require('firebase-admin');
 
-dotenv.config();
+// dotenv.config();
 
-admin.initializeApp({
-  credential: admin.credential.cert({
-    projectId: process.env.FIREBASE_PROJECT_ID,
-    privateKey: process.env.FIREBASE_PRIVATE_KEY,
-    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-  }),
-});
+// admin.initializeApp({
+//   credential: admin.credential.cert({
+//     projectId: process.env.FIREBASE_PROJECT_ID,
+//     privateKey: process.env.FIREBASE_PRIVATE_KEY,
+//     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+//   }),
+// });
 
-export { admin };
+// export { admin };
