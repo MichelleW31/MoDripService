@@ -88,7 +88,6 @@ export const getModsByUserId = async (req, res) => {
   let mods;
 
   try {
-    // const userId = await getIdFromAccessToken(req);
     const decodedToken = await admin.auth().verifyIdToken(token);
 
     const userId = decodedToken.uid;
