@@ -14,8 +14,6 @@ const verifyJWT = async (req, res, next) => {
 
   const token = authHeader.split(' ')[1];
 
-  logger.info(`Access token: ${token}`);
-
   try {
     const decodedToken = await admin.auth().verifyIdToken(token);
 

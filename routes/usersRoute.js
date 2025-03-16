@@ -12,7 +12,7 @@ import {
   userIdValidationRules,
   getUserIdValidationRules,
 } from '../middleware/validators/userValidation.js';
-import verifyRoles from '../middleware/verifyRoles.js';
+// import verifyRoles from '../middleware/verifyRoles.js';
 import verifyJWT from '../middleware/verifyJWT.js';
 
 const router = express.Router();

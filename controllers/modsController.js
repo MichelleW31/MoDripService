@@ -85,6 +85,8 @@ export const getModsByUserId = async (req, res) => {
 
   const token = authHeader.split(' ')[1];
 
+  logger.info(`Access token from mods controller: ${token}`);
+
   let mods;
 
   try {
