@@ -67,7 +67,7 @@ export const getUser = async (req, res) => {
   let user;
 
   try {
-    user = await User.findOne(id).exec();
+    user = await User.findOne({ uid: id }).exec();
 
     // No user found
     if (!user) {
