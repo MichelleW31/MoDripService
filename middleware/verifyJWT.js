@@ -1,5 +1,4 @@
 // @ts-nocheck
-import jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
 import logger from '../config/logger.js';
 import { admin } from '../FirebaseConfig.js';
@@ -15,6 +14,8 @@ const verifyJWT = async (req, res, next) => {
 
   const token = authHeader.split(' ')[1];
 
+  logger.info(`Access token: ${token}`);
+
   try {
     const decodedToken = await admin.auth().verifyIdToken(token);
 
@@ -24,24 +25,13 @@ const verifyJWT = async (req, res, next) => {
       `Auth Token verified for ${decodedToken.email}:${decodedToken.uid}`
     );
   } catch (error) {
-    logger.error(`Error ${err}`);
+    logger.error(`Jwt error ${err}`);
     logger.info(`Access token: ${authHeader}`);
 
     return res.sendStatus(403); // invalid token - forbidden
   }
 
   next();
-
-  // jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-  //   if (err) {
-  //     logger.error(`Error ${err}`);
-  //     logger.info(`Access token: ${authHeader}`)
-  //     return res.sendStatus(403); // invalid token - forbidden
-  //   }
-
-  //   req.user = decoded.user;
-  //   next();
-  // });
 };
 
 export default verifyJWT;

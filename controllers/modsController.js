@@ -1,12 +1,16 @@
 // BASE MODULES
 import jwt from 'jsonwebtoken';
-import * as dotenv from 'dotenv';
 
 // CUSTOM MODULES
 import Mods from '../models/modModel.js';
 import { getIdFromAccessToken } from '../util/accessToken.js';
 import logger from '../config/logger.js';
-import {convertToFahrenheit, roundHumidity, getMoisturePercentage} from '../middleware/convertSensorReadings.js';
+import {
+  convertToFahrenheit,
+  roundHumidity,
+  getMoisturePercentage,
+} from '../middleware/convertSensorReadings.js';
+import { admin } from '../FirebaseConfig.js';
 
 export const createMod = async (req, res) => {
   const { modName, modType } = req.body;
@@ -73,10 +77,21 @@ export const createMod = async (req, res) => {
 };
 
 export const getModsByUserId = async (req, res) => {
+  const authHeader = req.headers.authorization || req.headers.Authorization;
+
+  if (!authHeader?.startsWith('Bearer ')) {
+    return res.sendStatus(401); // Unauthorized
+  }
+
+  const token = authHeader.split(' ')[1];
+
   let mods;
 
   try {
-    const userId = await getIdFromAccessToken(req);
+    // const userId = await getIdFromAccessToken(req);
+    const decodedToken = await admin.auth().verifyIdToken(token);
+
+    const userId = decodedToken.uid;
 
     mods = await Mods.find({ userId });
 
@@ -135,7 +150,6 @@ export const updateMod = async (req, res) => {
     if (req.body?.humidity) {
       mod.humidity = roundHumidity(humidity);
     }
-
 
     const result = await mod.save();
 
