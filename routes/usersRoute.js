@@ -10,6 +10,7 @@ import { validate } from '../middleware/validators/validator.js';
 import {
   createUserValidationRules,
   userIdValidationRules,
+  getUserIdValidationRules,
 } from '../middleware/validators/userValidation.js';
 import verifyRoles from '../middleware/verifyRoles.js';
 import verifyJWT from '../middleware/verifyJWT.js';
@@ -23,7 +24,8 @@ router
   .put(verifyJWT, userIdValidationRules(), validate, updateUser)
   .delete(verifyJWT, userIdValidationRules(), validate, deleteUser);
 
-router.route('/:id').get(verifyJWT, userIdValidationRules(), validate, getUser);
+router
+  .route('/:id')
+  .get(verifyJWT, getUserIdValidationRules(), validate, getUser);
 
 export default router;
-
