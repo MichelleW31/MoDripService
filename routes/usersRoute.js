@@ -21,11 +21,11 @@ router
   .route('/')
   .get(verifyJWT, getUsers)
   .post(createUserValidationRules(), validate, createUser)
-  .put(verifyJWT, userIdValidationRules(), validate, updateUser)
-  .delete(verifyJWT, userIdValidationRules(), validate, deleteUser);
+  .put(verifyJWT, userIdValidationRules(), validate, updateUser);
 
 router
   .route('/:id')
-  .get(verifyJWT, getUserIdValidationRules(), validate, getUser);
+  .get(verifyJWT, getUserIdValidationRules(), validate, getUser)
+  .delete(verifyJWT, getUserIdValidationRules(), validate, deleteUser);
 
 export default router;

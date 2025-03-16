@@ -56,8 +56,6 @@ export const getUsers = async (req, res) => {
 };
 
 export const getUser = async (req, res) => {
-  logger.info('request', req);
-
   if (!req?.params?.id) {
     return res.status(400).json({ message: 'User is required' });
   }
@@ -144,16 +142,16 @@ export const updateUser = async (req, res) => {
 };
 
 export const deleteUser = async (req, res) => {
-  if (!req?.query?.id) {
+  if (!req?.params?.id) {
     return res.status(400).json({ message: 'User id is required' });
   }
 
-  const { id } = req.query;
+  const { id } = req.params;
 
   let user;
 
   try {
-    user = await User.findById(id).exec();
+    user = await User.findOne({ uid: id }).exec();
 
     // No user found
     if (!user) {
@@ -161,7 +159,7 @@ export const deleteUser = async (req, res) => {
     }
 
     // Delete if user found
-    await User.deleteOne({ _id: id });
+    await User.deleteOne({ uid: id });
 
     res.status(200).json({ message: 'User deleted' });
   } catch (error) {
