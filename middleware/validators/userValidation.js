@@ -14,9 +14,5 @@ export const loginValidationRules = () => {
 };
 
 export const userIdValidationRules = () => {
-  return [query('id').trim().notEmpty().escape()];
-};
-
-export const getUserIdValidationRules = () => {
   return [param('id').trim().notEmpty().escape()];
 };

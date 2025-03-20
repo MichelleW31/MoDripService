@@ -24,7 +24,7 @@ router
 
 // router
 //   .route('/:id')
-//   .put(verifyJWT, userIdValidationRules(), updateMod)
-//   .delete(verifyJWT, userIdValidationRules(), deleteMod);
+//   .put(verifyJWT, modIdValidationRules(), updateMod)
+//   .delete(verifyJWT, modIdValidationRules(), deleteMod);
 
 export default router;
