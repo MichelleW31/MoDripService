@@ -23,7 +23,7 @@ const verifyJWT = async (req, res, next) => {
       `Auth Token verified for ${decodedToken.email}:${decodedToken.uid}`
     );
   } catch (error) {
-    logger.error(`Jwt error ${err}`);
+    logger.error(`Jwt error ${error}`);
     logger.info(`Access token: ${authHeader}`);
 
     return res.sendStatus(403); // invalid token - forbidden
