@@ -60,7 +60,6 @@ export const setTargetData = async (req, res) => {
 };
 
 export const getTargetDataById = async (req, res) => {
-  logger.info('req.params', req.params);
   if (!req?.params?.modId) {
     return res.status(400).json({ message: 'Mod id is required' });
   }
