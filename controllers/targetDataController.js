@@ -2,11 +2,11 @@ import TargetData from '../models/targetDataModel.js';
 import logger from '../config/logger.js';
 
 export const setTargetData = async (req, res) => {
-  if (!req?.params?.modId) {
+  if (!req?.query?.modId) {
     return res.status(400).json({ message: 'Mod id is required' });
   }
 
-  const { modId } = req.params;
+  const { modId } = req.query;
 
   const {
     targetTemperatureMin,

@@ -7,6 +7,7 @@ import {
 import { validate } from '../middleware/validators/validator.js';
 import {
   modIdValidationRules,
+  modIdQueryValidationRules,
   setTargetDataValidationRules,
 } from '../middleware/validators/targetDataValidation.js';
 import verifyJWT from '../middleware/verifyJWT.js';
@@ -31,7 +32,7 @@ router
   .post(
     verifyJWT,
     setTargetDataValidationRules(),
-    modIdValidationRules(),
+    modIdQueryValidationRules(),
     validate,
     setTargetData
   );
