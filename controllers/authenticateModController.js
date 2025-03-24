@@ -1,0 +1,34 @@
+// BASE MODULES
+import axios from 'axios';
+
+// CUSTOM MODULES
+import { admin } from '../FirebaseConfig.js';
+
+export const authenticateMod = async (req, res) => {
+  const modId = req.body;
+
+  if (!modId) {
+    return res.status(400).json({ error: 'Mod id is required' });
+  }
+
+  try {
+    // Generate a Custom Token
+    const customToken = await admin.auth().createCustomToken(modId);
+
+    // Exchange Custom Token for ID Token
+    const apiKey = process.env.FIREBASE_API_KEY;
+
+    const response = await axios.post(
+      `https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=${apiKey}`,
+      {
+        token: customToken,
+        returnSecureToken: true,
+      }
+    );
+
+    // Return the ID Token to the sensor
+    return response.data.idToken;
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to authenticate mod' });
+  }
+};

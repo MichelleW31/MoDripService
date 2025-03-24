@@ -1,5 +1,4 @@
 // BASE MODULES
-import jwt from 'jsonwebtoken';
 
 // CUSTOM MODULES
 import Mods from '../models/modModel.js';
