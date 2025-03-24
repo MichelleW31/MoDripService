@@ -1,9 +1,10 @@
 import jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
+import { admin } from '../FirebaseConfig.js';
 
 dotenv.config();
 
-export const getIdFromAccessToken = (req) => {
+export const getIdFromAccessToken = async (req) => {
   let token;
 
   if (
@@ -13,7 +14,8 @@ export const getIdFromAccessToken = (req) => {
     token = req.headers.authorization.split(' ')[1];
 
     // @ts-ignore
-    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    return decoded.user.id;
+    const decodedToken = await admin.auth().verifyIdToken(token);
+
+    return decodedToken.uid;
   }
 };

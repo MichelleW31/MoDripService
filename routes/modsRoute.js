@@ -18,13 +18,11 @@ router
   .route('/')
   //   .get(verifyJWT, getMods)
   .get(verifyJWT, getModsByUserId)
-  .post(verifyJWT, createModValidationRules(), validate, createMod)
+  .post(verifyJWT, createModValidationRules(), validate, createMod);
+
+router
+  .route('/:id')
   .put(verifyJWT, modIdValidationRules(), updateMod)
   .delete(verifyJWT, modIdValidationRules(), deleteMod);
-
-// router
-//   .route('/:id')
-//   .put(verifyJWT, modIdValidationRules(), updateMod)
-//   .delete(verifyJWT, modIdValidationRules(), deleteMod);
 
 export default router;

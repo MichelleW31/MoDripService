@@ -39,6 +39,7 @@ export const createMod = async (req, res) => {
 
   try {
     const userId = await getIdFromAccessToken(req);
+
     // Create and store the new mod
     const mod = await Mods.create({
       modName,
@@ -50,21 +51,22 @@ export const createMod = async (req, res) => {
     });
 
     // Create JWTs (access tokens)
-    const accessToken = jwt.sign(
-      {
-        mod: {
-          modName: mod.modName,
-          modType: mod.modType,
-          modId: mod._id,
-        },
-      },
-      // @ts-ignore
-      process.env.ACCESS_TOKEN_SECRET,
-      // 15 minutes for production
-      { expiresIn: '100d' }
-    );
 
-    mod.accessToken = accessToken;
+    // const accessToken = jwt.sign(
+    //   {
+    //     mod: {
+    //       modName: mod.modName,
+    //       modType: mod.modType,
+    //       modId: mod._id,
+    //     },
+    //   },
+    //   // @ts-ignore
+    //   process.env.ACCESS_TOKEN_SECRET,
+    //   // 15 minutes for production
+    //   { expiresIn: '100d' }
+    // );
+
+    // mod.accessToken = accessToken;
 
     await mod.save();
 
@@ -108,14 +110,13 @@ export const getModsByUserId = async (req, res) => {
   }
 };
 
-// Double check if this work from front end
 export const updateMod = async (req, res) => {
-  if (!req?.query?.id) {
+  if (!req?.params?.id) {
     logger.info('Mod id not included');
     return res.status(400).json({ message: 'Mod id is required' });
   }
 
-  const { id } = req.query;
+  const { id } = req.params;
   const { modName, modType, moisture, temperature, humidity } = req.body;
 
   let mod;
@@ -163,11 +164,11 @@ export const updateMod = async (req, res) => {
 };
 
 export const deleteMod = async (req, res) => {
-  if (!req?.query?.id) {
+  if (!req?.params?.id) {
     return res.status(400).json({ message: 'Mod Id is required' });
   }
 
-  const { id } = req.query;
+  const { id } = req.params;
 
   let mod;
 
