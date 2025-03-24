@@ -6,13 +6,10 @@ export const setTargetDataValidationRules = () => {
     body('targetTemperatureMax').trim().notEmpty().escape(),
     body('targetHumidityMin').trim().notEmpty().escape(),
     body('targetHumidityMax').trim().notEmpty().escape(),
+    body('modId').trim().notEmpty().escape(),
   ];
 };
 
 export const modIdValidationRules = () => {
   return [param('modId').trim().notEmpty().escape()];
-};
-
-export const modIdQueryValidationRules = () => {
-  return [query('modId').trim().notEmpty().escape()];
 };

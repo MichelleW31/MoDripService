@@ -7,34 +7,26 @@ import {
 import { validate } from '../middleware/validators/validator.js';
 import {
   modIdValidationRules,
-  modIdQueryValidationRules,
   setTargetDataValidationRules,
 } from '../middleware/validators/targetDataValidation.js';
 import verifyJWT from '../middleware/verifyJWT.js';
 
 const router = express.Router();
 
-// router
-//   .route('/')
-//   .get(verifyJWT, modIdValidationRules(), validate, getTargetDataById)
-//   .post(
-//     verifyJWT,
-//     setTargetDataValidationRules(),
-//     modIdValidationRules(),
-//     validate,
-//     setTargetData
-//   );
+router
+  .route('/')
+  // .get(verifyJWT, modIdValidationRules(), validate, getTargetDataById)
+  .post(
+    verifyJWT,
+    setTargetDataValidationRules(),
+    modIdValidationRules(),
+    validate,
+    setTargetData
+  );
 
 router
   .route('/:id')
   .get(verifyJWT, modIdValidationRules(), validate, getTargetDataById)
-  .put(verifyJWT, modIdValidationRules(), validate, updateTargetData)
-  .post(
-    verifyJWT,
-    setTargetDataValidationRules(),
-    modIdQueryValidationRules(),
-    validate,
-    setTargetData
-  );
+  .put(verifyJWT, modIdValidationRules(), validate, updateTargetData);
 
 export default router;
