@@ -2,11 +2,11 @@ import TargetData from '../models/targetDataModel.js';
 import logger from '../config/logger.js';
 
 export const setTargetData = async (req, res) => {
-  if (!req?.query?.modId) {
+  if (!req?.params?.modId) {
     return res.status(400).json({ message: 'Mod id is required' });
   }
 
-  const { modId } = req.query;
+  const { modId } = req.params;
 
   const {
     targetTemperatureMin,
@@ -65,11 +65,11 @@ export const setTargetData = async (req, res) => {
 };
 
 export const getTargetDataById = async (req, res) => {
-  if (!req?.query?.modId) {
+  if (!req?.params?.modId) {
     return res.status(400).json({ message: 'Mod id is required' });
   }
 
-  const { modId } = req.query;
+  const { modId } = req.params;
 
   let targetData;
 
@@ -93,11 +93,11 @@ export const getTargetDataById = async (req, res) => {
 
 // Double check if this work from front end
 export const updateTargetData = async (req, res) => {
-  if (!req?.query?.modId) {
+  if (!req?.params?.modId) {
     return res.status(400).json({ message: 'Mod id is required' });
   }
 
-  const { modId } = req.query;
+  const { modId } = req.params;
 
   const {
     targetTemperatureMin,

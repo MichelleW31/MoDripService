@@ -13,8 +13,19 @@ import verifyJWT from '../middleware/verifyJWT.js';
 
 const router = express.Router();
 
+// router
+//   .route('/')
+//   .get(verifyJWT, modIdValidationRules(), validate, getTargetDataById)
+//   .post(
+//     verifyJWT,
+//     setTargetDataValidationRules(),
+//     modIdValidationRules(),
+//     validate,
+//     setTargetData
+//   );
+
 router
-  .route('/')
+  .route('/:id')
   .get(verifyJWT, modIdValidationRules(), validate, getTargetDataById)
   .put(verifyJWT, modIdValidationRules(), validate, updateTargetData)
   .post(
