@@ -2,9 +2,9 @@
 import express from 'express';
 
 // CUSTOM MODULES
-import { authModValidationRules } from '../middleware/validators/authenticateModValidation';
-import { validate } from '../middleware/validators/validator';
-import { authenticateMod } from '../controllers/authenticateModController';
+import { authModValidationRules } from '../middleware/validators/authenticateModValidation.js';
+import { validate } from '../middleware/validators/validator.js';
+import { authenticateMod } from '../controllers/authenticateModController.js';
 
 const router = express.Router();
 
