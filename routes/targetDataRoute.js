@@ -18,7 +18,7 @@ router
   .post(verifyJWT, setTargetDataValidationRules(), validate, setTargetData);
 
 router
-  .route('/:id')
+  .route('/:modId')
   .get(verifyJWT, modIdValidationRules(), validate, getTargetDataById)
   .put(verifyJWT, modIdValidationRules(), validate, updateTargetData);
 

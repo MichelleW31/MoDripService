@@ -22,7 +22,7 @@ router
 
 router
   .route('/:id')
-  .put(verifyJWT, modIdValidationRules(), updateMod)
-  .delete(verifyJWT, modIdValidationRules(), deleteMod);
+  .put(verifyJWT, modIdValidationRules(), validate, updateMod)
+  .delete(verifyJWT, modIdValidationRules(), validate, deleteMod);
 
 export default router;
