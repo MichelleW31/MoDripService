@@ -8,6 +8,8 @@ import logger from '../config/logger.js';
 export const authenticateMod = async (req, res) => {
   const modId = req.body;
 
+  logger.info(`mod ${modId}`);
+
   if (!modId) {
     return res.status(400).json({ error: 'Mod id is required' });
   }
@@ -30,9 +32,7 @@ export const authenticateMod = async (req, res) => {
     // Return the ID Token to the sensor
     return response.data.idToken;
   } catch (error) {
-    logger.error(
-      `Error with authenticating sensor ${modId}: ${JSON.stringify(error)}`
-    );
+    logger.error(`Error with authenticating sensor ${modId}: ${error}`);
 
     res.status(500).json({ error: 'Failed to authenticate mod' });
   }
