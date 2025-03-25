@@ -6,7 +6,7 @@ import { admin } from '../FirebaseConfig.js';
 import logger from '../config/logger.js';
 
 export const authenticateMod = async (req, res) => {
-  const modId = req.body;
+  const { modId } = req.body;
 
   logger.info(`modId ${modId}`);
   logger.info(`req.body ${req.body}`);
