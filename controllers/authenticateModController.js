@@ -8,7 +8,7 @@ import logger from '../config/logger.js';
 export const authenticateMod = async (req, res) => {
   const modId = req.body;
 
-  logger.info(`modId ${req}`);
+  logger.info(`modId ${JSON.stringify(req)}`);
 
   if (!modId) {
     return res.status(400).json({ error: 'Mod id is required' });
