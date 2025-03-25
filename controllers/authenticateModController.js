@@ -8,8 +8,6 @@ import logger from '../config/logger.js';
 export const authenticateMod = async (req, res) => {
   const modId = req.body;
 
-  logger.info(`mod ${req.body}`);
-
   if (!modId) {
     return res.status(400).json({ error: 'Mod id is required' });
   }
@@ -17,6 +15,8 @@ export const authenticateMod = async (req, res) => {
   try {
     // Generate a Custom Token
     const customToken = await admin.auth().createCustomToken(modId);
+
+    logger.info(`customToken ${customToken}`);
 
     // Exchange Custom Token for ID Token
     const apiKey = process.env.FIREBASE_API_KEY;
