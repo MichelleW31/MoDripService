@@ -19,8 +19,6 @@ export const authenticateMod = async (req, res) => {
     // Exchange Custom Token for ID Token
     const apiKey = process.env.FIREBASE_API_KEY;
 
-    logger.info(`api key ${process.env.FIREBASE_API_KEY}`);
-
     const response = await axios.post(
       `https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=${apiKey}`,
       {
@@ -32,7 +30,9 @@ export const authenticateMod = async (req, res) => {
     // Return the ID Token to the sensor
     return response.data.idToken;
   } catch (error) {
-    logger.error(`Error with authenticating sensor ${modId}: ${error}`);
+    logger.error(
+      `Error with authenticating sensor ${modId}: ${error.code} ${error.message}`
+    );
 
     res.status(500).json({ error: 'Failed to authenticate mod' });
   }
