@@ -3,6 +3,7 @@ import axios from 'axios';
 
 // CUSTOM MODULES
 import { admin } from '../FirebaseConfig.js';
+import logger from '../config/logger.js';
 
 export const authenticateMod = async (req, res) => {
   const modId = req.body;
