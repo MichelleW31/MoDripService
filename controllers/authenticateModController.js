@@ -9,6 +9,7 @@ export const authenticateMod = async (req, res) => {
   const modId = req.body;
 
   if (!modId) {
+    logger.info(`hit`);
     return res.status(400).json({ error: 'Mod id is required' });
   }
 
