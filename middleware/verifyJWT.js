@@ -11,7 +11,7 @@ const verifyJWT = async (req, res, next) => {
   logger.info(`authHeader`, authHeader);
 
   if (!authHeader?.startsWith('Bearer ')) {
-    return res.code(401).send({ message: 'Unauthorized' }); // Unauthorized
+    return res.status(401).send({ message: 'Unauthorized' }); // Unauthorized
   }
 
   const token = authHeader.split(' ')[1];
