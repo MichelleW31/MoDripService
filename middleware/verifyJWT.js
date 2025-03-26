@@ -9,6 +9,7 @@ const verifyJWT = async (req, res, next) => {
   const authHeader = req.headers.authorization || req.headers.Authorization;
 
   // Sensor is failing here
+  logger.info(`authHeader ${authHeader}`);
 
   if (!authHeader?.startsWith('Bearer ')) {
     return res.status(401).send({ message: 'Unauthorized' }); // Unauthorized
