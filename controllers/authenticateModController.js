@@ -24,6 +24,9 @@ export const authenticateMod = async (req, res) => {
       {
         token: customToken,
         returnSecureToken: true,
+      },
+      {
+        headers: { 'Content-Type': 'application/json' },
       }
     );
 
