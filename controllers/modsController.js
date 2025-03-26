@@ -120,7 +120,10 @@ export const updateMod = async (req, res) => {
 
   let mod;
 
+  logger.info('hit');
+
   try {
+    logger.info('hit inside try');
     mod = await Mods.findById(id).exec();
 
     // No mod found

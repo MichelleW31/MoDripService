@@ -31,8 +31,6 @@ export const authenticateMod = async (req, res) => {
       }
     );
 
-    logger.info(`response`, response.data.idToken);
-
     // Return the ID Token to the sensor
     return res.json({ idToken: response.data.idToken });
   } catch (error) {
