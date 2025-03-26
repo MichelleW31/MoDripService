@@ -8,7 +8,7 @@ dotenv.config();
 const verifyJWT = async (req, res, next) => {
   const authHeader = req.headers.authorization || req.headers.Authorization;
 
-  logger.info(req);
+  logger.info(JSON.stringify(req));
 
   if (!authHeader?.startsWith('Bearer ')) {
     return res.status(401).send({ message: 'Unauthorized' }); // Unauthorized
