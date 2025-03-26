@@ -120,10 +120,7 @@ export const updateMod = async (req, res) => {
 
   let mod;
 
-  logger.info('hit');
-
   try {
-    logger.info('hit inside try');
     mod = await Mods.findById(id).exec();
 
     // No mod found
@@ -154,8 +151,6 @@ export const updateMod = async (req, res) => {
     }
 
     const result = await mod.save();
-
-    logger.info(`Result: ${result}`);
 
     return res.status(200).json(result);
   } catch (error) {

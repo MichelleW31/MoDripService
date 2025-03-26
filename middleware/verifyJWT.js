@@ -19,12 +19,9 @@ const verifyJWT = async (req, res, next) => {
 
     req.user = decodedToken;
 
-    logger.info(
-      `Auth Token verified for ${decodedToken.email}:${decodedToken.uid}`
-    );
+    logger.info(`Auth Token verified`);
   } catch (error) {
     logger.error(`Jwt error ${error}`);
-    logger.info(`Access token: ${authHeader}`);
 
     return res.sendStatus(403); // invalid token - forbidden
   }
