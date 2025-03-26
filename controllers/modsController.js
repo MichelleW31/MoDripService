@@ -152,7 +152,7 @@ export const updateMod = async (req, res) => {
 
     const result = await mod.save();
 
-    return res.status(200).send(result);
+    return res.status(200).send({ mod: result });
   } catch (error) {
     logger.error(`Error updating user ${error}`);
 

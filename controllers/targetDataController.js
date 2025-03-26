@@ -132,7 +132,7 @@ export const updateTargetData = async (req, res) => {
 
     logger.info(`Target data updated: ${targetData}`);
 
-    return res.status(200).json(result);
+    return res.status(200).send(result);
   } catch (error) {
     logger.error(`Error updating target data ${error}`);
 
