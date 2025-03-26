@@ -6,7 +6,6 @@ import { admin } from '../FirebaseConfig.js';
 dotenv.config();
 
 const verifyJWT = async (req, res, next) => {
-  logger.info('hit from verify');
   const authHeader = req.headers.authorization || req.headers.Authorization;
 
   if (!authHeader?.startsWith('Bearer ')) {
