@@ -31,7 +31,7 @@ export const authenticateMod = async (req, res) => {
     return response.data.idToken;
   } catch (error) {
     logger.error(
-      `Error with authenticating sensor ${modId}: ${error.code} ${error.message}`
+      `Error with authenticating sensor ${modId}: ${error.response.data}`
     );
 
     res.status(500).json({ error: 'Failed to authenticate mod' });
