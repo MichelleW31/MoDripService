@@ -155,7 +155,7 @@ export const updateMod = async (req, res) => {
 
     const result = await mod.save();
 
-    logger.info(`Mod updated: ${mod}`);
+    logger.info(`Result: ${result}`);
 
     return res.status(200).json(result);
   } catch (error) {
