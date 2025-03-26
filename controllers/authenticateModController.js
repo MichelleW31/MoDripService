@@ -33,10 +33,10 @@ export const authenticateMod = async (req, res) => {
       }
     );
 
-    logger.info(`response`, response);
+    logger.info(`response`, response.data);
 
     // Return the ID Token to the sensor
-    return response.data.idToken;
+    return res.json({ idToken: response.data.idToken });
   } catch (error) {
     logger.error(
       `Error with authenticating sensor ${modId}: ${JSON.stringify(
