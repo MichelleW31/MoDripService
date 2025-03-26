@@ -19,6 +19,8 @@ export const authenticateMod = async (req, res) => {
     // Exchange Custom Token for ID Token
     const apiKey = process.env.FIREBASE_API_KEY;
 
+    logger.info(`custom token ${customToken}`);
+
     const response = await axios.post(
       `https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=${apiKey}`,
       {
