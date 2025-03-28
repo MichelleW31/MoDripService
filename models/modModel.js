@@ -26,6 +26,10 @@ const mod = new mongoose.Schema(
       type: String,
       required: true,
     },
+    sensorStatusTimestamp: {
+      type: Number,
+      required: true,
+    },
   },
   { timestamps: true }
 );

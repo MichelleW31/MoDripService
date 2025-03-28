@@ -47,25 +47,8 @@ export const createMod = async (req, res) => {
       moisture: 0,
       humidity: 0,
       userId,
+      sensorStatusTimestamp: Date.now(),
     });
-
-    // Create JWTs (access tokens)
-
-    // const accessToken = jwt.sign(
-    //   {
-    //     mod: {
-    //       modName: mod.modName,
-    //       modType: mod.modType,
-    //       modId: mod._id,
-    //     },
-    //   },
-    //   // @ts-ignore
-    //   process.env.ACCESS_TOKEN_SECRET,
-    //   // 15 minutes for production
-    //   { expiresIn: '100d' }
-    // );
-
-    // mod.accessToken = accessToken;
 
     await mod.save();
 
