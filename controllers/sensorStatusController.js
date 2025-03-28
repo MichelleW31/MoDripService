@@ -23,7 +23,7 @@ export const getSensorStatus = async (req, res) => {
       return res.status(404).json({ message: `No Mod Found` });
     }
 
-    res.status(200).send({ sensorStatusTimestamp: mod.sensorStatusTimestamp });
+    res.status(200).send(mod.sensorStatusTimestamp);
   } catch (error) {
     logger.error(`Error finding mod ${error}`);
 
