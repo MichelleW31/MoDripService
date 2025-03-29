@@ -137,7 +137,7 @@ export const updateMod = async (req, res) => {
 
     return res.status(200).send(result);
   } catch (error) {
-    logger.error(`Error updating user ${error}`);
+    logger.error(`Error updating mod ${error}`);
 
     return res.status(500).json({ message: 'Error. Try again later' });
   }
