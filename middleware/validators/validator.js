@@ -9,7 +9,8 @@ export const validate = async (req, res, next) => {
   }
   const errorsArray = [];
   errors.array().map((err) => errorsArray.push({ [err.param]: err.msg }));
-  logger.error(errorsArray);
+
+  errors.array().map((err) => logger.error(`Validation error: ${err.msg}`));
 
   // Return bad request
   return res.status(400).json({
