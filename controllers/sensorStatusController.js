@@ -46,7 +46,7 @@ export const updateSensorStatus = async (req, res) => {
       sensorStatusTimestamp: Date.now(),
     });
 
-    logger.info(`Mod updated ${mod}`);
+    logger.info(`Sensor status updated ${mod}`);
 
     return res.status(204);
   } catch (error) {
