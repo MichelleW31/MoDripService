@@ -4,5 +4,5 @@ import { param } from 'express-validator';
 // CUSTOM MODULES
 
 export const modIdValidationRules = () => {
-  return [param('modId').trim().notEmpty().escape()];
+  return [param('id').trim().notEmpty().escape()];
 };
