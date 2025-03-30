@@ -3,7 +3,7 @@ import userRoutes from './usersRoute.js';
 import modsRoute from './modsRoute.js';
 import targetDataRoutes from './targetDataRoute.js';
 import authenticateModRoutes from './authenticateModRoute.js';
-import sensorStatusRoutes from './sensorStatusRoute.js';
+import sensorStatusRoutes from './modStatusRoute.js';
 
 let rootRouter = Router();
 
