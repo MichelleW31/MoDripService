@@ -48,7 +48,7 @@ export const updateModStatus = async (req, res) => {
 
     logger.info(`Mod status updated ${mod}`);
 
-    return res.status(204);
+    return res.status(200).send({ message: 'Mod status updated' });
   } catch (error) {
     logger.error(`Error updating mod status`, error);
     res.status(500).send({ message: 'Error updating mod status' });
