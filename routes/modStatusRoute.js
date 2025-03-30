@@ -15,6 +15,6 @@ const router = express.Router();
 router
   .route('/:id')
   .get(verifyJWT, modIdValidationRules(), validate, getModStatus)
-  .post(verifyJWT, modIdValidationRules(), validate, updateModStatus);
+  .post(modIdValidationRules(), validate, updateModStatus);
 
 export default router;
