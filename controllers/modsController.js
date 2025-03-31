@@ -162,6 +162,7 @@ export const deleteMod = async (req, res) => {
     }
 
     await TargetData.deleteOne({ modId: id });
+
     // Delete if mod found
     await Mods.deleteOne({ _id: id });
 

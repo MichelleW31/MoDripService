@@ -1,6 +1,8 @@
+// @ts-nocheck
 import User from '../models/userModel.js';
 import logger from '../config/logger.js';
 import Mods from '../models/modModel.js';
+import TargetData from '../models/targetDataModel.js';
 
 export const createUser = async (req, res) => {
   const { firstName, lastName, email, uid } = req.body;
@@ -137,12 +139,20 @@ export const deleteUser = async (req, res) => {
   try {
     user = await User.findOne({ uid: id }).exec();
 
+    const mods = await Mods.find({ userId: id }).toArray();
+    const modIds = mods.map((mod) => mod._id);
+
     // No user found
     if (!user) {
       return res.status(404).json({ message: 'No User Found' });
     }
 
+    // Delete target data associated with mods that are associated with
+    await TargetData.deleteMany({ modId: { $in: modIds } });
+
+    // Delete mods associated with user
     await Mods.deleteMany({ userId: id });
+
     // Delete if user found
     await User.deleteOne({ uid: id });
 
