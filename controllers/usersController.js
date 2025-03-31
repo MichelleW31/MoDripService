@@ -139,8 +139,9 @@ export const deleteUser = async (req, res) => {
   try {
     user = await User.findOne({ uid: id }).exec();
 
-    const mods = await Mods.find({ userId: id }).toArray();
-    const modIds = mods.map((mod) => mod._id);
+    const mods = await Mods.find({ userId: id });
+    const modsArray = await mods.toArray();
+    const modIds = modsArray.map((mod) => mod._id);
 
     // No user found
     if (!user) {
@@ -148,7 +149,9 @@ export const deleteUser = async (req, res) => {
     }
 
     // Delete target data associated with mods that are associated with
-    await TargetData.deleteMany({ modId: { $in: modIds } });
+    if (modIds.length > 0) {
+      await TargetData.deleteMany({ modId: { $in: modIds } });
+    }
 
     // Delete mods associated with user
     await Mods.deleteMany({ userId: id });
