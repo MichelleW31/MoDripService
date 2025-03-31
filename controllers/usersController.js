@@ -140,8 +140,7 @@ export const deleteUser = async (req, res) => {
     user = await User.findOne({ uid: id }).exec();
 
     const mods = await Mods.find({ userId: id });
-    const modsArray = await mods.toArray();
-    const modIds = modsArray.map((mod) => mod._id);
+    const modIds = mods.map((mod) => mod._id);
 
     // No user found
     if (!user) {
