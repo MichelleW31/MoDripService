@@ -86,7 +86,6 @@ export const getTargetDataById = async (req, res) => {
   }
 };
 
-// Double check if this work from front end
 export const updateTargetData = async (req, res) => {
   if (!req?.params?.modId) {
     return res.status(400).json({ message: 'Mod id is required' });
@@ -137,5 +136,34 @@ export const updateTargetData = async (req, res) => {
     logger.error(`Error updating target data ${error}`);
 
     return res.status(500).json({ message: 'Error. Try again later' });
+  }
+};
+
+export const deleteTargetData = async (req, res) => {
+  if (!req?.params?.modId) {
+    return res.status(400).json({ message: 'Mod Id is required' });
+  }
+
+  const { modId } = req.params;
+
+  let targetData;
+
+  try {
+    targetData = await TargetData.findOne({ modId: modId });
+
+    // No target data found
+    if (!targetData) {
+      return res.status(404).json({ message: 'No Target Data Found' });
+    }
+
+    await TargetData.deleteOne({ modId: modId });
+
+    res.status(200).json({ message: 'Target Data deleted' });
+  } catch (error) {
+    logger.error(`Error deleting target data ${error}`);
+
+    return res
+      .status(500)
+      .json({ message: 'Error deleting target data. Try again later' });
   }
 };

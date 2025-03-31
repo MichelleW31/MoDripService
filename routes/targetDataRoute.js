@@ -3,6 +3,7 @@ import {
   setTargetData,
   updateTargetData,
   getTargetDataById,
+  deleteTargetData,
 } from '../controllers/targetDataController.js';
 import { validate } from '../middleware/validators/validator.js';
 import {
@@ -20,6 +21,7 @@ router
 router
   .route('/:modId')
   .get(verifyJWT, modIdValidationRules(), validate, getTargetDataById)
-  .put(verifyJWT, modIdValidationRules(), validate, updateTargetData);
+  .put(verifyJWT, modIdValidationRules(), validate, updateTargetData)
+  .delete(verifyJWT, modIdValidationRules(), validate, deleteTargetData);
 
 export default router;

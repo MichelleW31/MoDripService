@@ -164,5 +164,11 @@ export const deleteMod = async (req, res) => {
     await Mods.deleteOne({ _id: id });
 
     res.status(200).json({ message: 'Mod deleted' });
-  } catch (error) {}
+  } catch (error) {
+    logger.error(`Error deleting mod ${error}`);
+
+    return res
+      .status(500)
+      .json({ message: 'Error deleting mod. Try again later' });
+  }
 };
