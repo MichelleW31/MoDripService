@@ -10,6 +10,7 @@ import {
   getMoisturePercentage,
 } from '../middleware/convertSensorReadings.js';
 import { admin } from '../FirebaseConfig.js';
+import TargetData from '../models/targetDataModel.js';
 
 export const createMod = async (req, res) => {
   const { modName, modType } = req.body;
@@ -160,6 +161,7 @@ export const deleteMod = async (req, res) => {
       return res.status(404).json({ message: 'No Mod Found' });
     }
 
+    await TargetData.deleteOne({ modId: id });
     // Delete if mod found
     await Mods.deleteOne({ _id: id });
 
