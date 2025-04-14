@@ -1,9 +1,17 @@
+// BASE MODULES
 import mongoose from 'mongoose';
+import mqtt from 'mqtt';
 import * as dotenv from 'dotenv';
 import { WebSocket } from 'ws';
 
+// CUSTOM MODULES
 import logger from './logger.js';
 import Mod from '../models/modModel.js';
+import {
+  convertToFahrenheit,
+  getMoisturePercentage,
+  roundHumidity,
+} from '../middleware/convertSensorReadings.js';
 
 dotenv.config();
 
@@ -11,7 +19,7 @@ const CONNECTION_URL = process.env.MONGO_CONNECTION_URL;
 const database = process.env.DATABASE_NAME;
 
 const connectDB = (wsServer) => {
-  // Mongo DB connection
+  // MONGO DB CONNECTION
   mongoose.connect(CONNECTION_URL, {
     authSource: 'admin',
     ssl: true,
@@ -24,7 +32,55 @@ const connectDB = (wsServer) => {
     logger.info('MongoDB database connection established successfully');
   });
 
-  // WebSocket connection event handler
+  // MQTT BROKER CONNECTION
+  const mqttClient = mqtt.connect(
+    '902e1d0dba3944fa88c5f6caac765b57.s1.eu.hivemq.cloud',
+    { username: process.env.MQTT_USERNAME, password: process.env.MQTT_PASSWORD }
+  );
+
+  mqttClient.on('connect', () => {
+    logger.info('Connected to MQTT Broker');
+    mqttClient.subscribe('mod/readings/+');
+  });
+
+  mqttClient.on('message', async (topic, message) => {
+    logger.info('Connected to MQTT Broker');
+
+    let mod;
+
+    try {
+      const payload = JSON.parse(message.toString());
+      const timestamp = Date.now();
+
+      const modId = topic.split('/')[2];
+
+      logger.info('payload', payload);
+
+      mod = await Mod.findById(modId).exec();
+
+      if (mod) {
+        if (payload?.moisture) {
+          mod.moisture = getMoisturePercentage(payload?.moisture);
+        }
+
+        if (payload?.temperature) {
+          mod.temperature = convertToFahrenheit(payload?.temperature);
+        }
+
+        if (payload?.humidity) {
+          mod.humidity = roundHumidity(payload?.humidity);
+        }
+
+        mod.modStatusTimestamp = timestamp;
+
+        await mod.save();
+      }
+    } catch (error) {
+      logger.error(`"Error handling MQTT message:" ${error}`);
+    }
+  });
+
+  // WEBSERVER CONNECTION
   wsServer.on('connection', (ws) => {
     logger.info('Client connected to WebSocket');
 

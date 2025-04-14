@@ -31,6 +31,7 @@ export const getModStatus = async (req, res) => {
   }
 };
 
+// DOUBLE CHECK IF STILL NEEDED
 export const updateModStatus = async (req, res) => {
   if (!req?.params?.id) {
     logger.info('Mod id not included');

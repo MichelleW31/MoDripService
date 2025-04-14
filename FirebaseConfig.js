@@ -3,8 +3,6 @@ import * as dotenv from 'dotenv';
 
 import admin from 'firebase-admin';
 
-// export const admin = require('firebase-admin');
-
 dotenv.config();
 
 admin.initializeApp({

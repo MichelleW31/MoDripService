@@ -4,11 +4,6 @@
 import Mods from '../models/modModel.js';
 import { getIdFromAccessToken } from '../util/accessToken.js';
 import logger from '../config/logger.js';
-import {
-  convertToFahrenheit,
-  roundHumidity,
-  getMoisturePercentage,
-} from '../middleware/convertSensorReadings.js';
 import { admin } from '../FirebaseConfig.js';
 import TargetData from '../models/targetDataModel.js';
 
@@ -100,7 +95,7 @@ export const updateMod = async (req, res) => {
   }
 
   const { id } = req.params;
-  const { modName, modType, moisture, temperature, humidity } = req.body;
+  const { modName, modType } = req.body;
 
   let mod;
 
@@ -120,18 +115,6 @@ export const updateMod = async (req, res) => {
 
     if (req.body?.modType) {
       mod.modType = modType;
-    }
-
-    if (req.body?.moisture) {
-      mod.moisture = getMoisturePercentage(moisture);
-    }
-
-    if (req.body?.temperature) {
-      mod.temperature = convertToFahrenheit(temperature);
-    }
-
-    if (req.body?.humidity) {
-      mod.humidity = roundHumidity(humidity);
     }
 
     const result = await mod.save();
