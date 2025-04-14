@@ -54,7 +54,7 @@ const connectDB = (wsServer) => {
 
       const modId = topic.split('/')[2];
 
-      logger.info('payload', payload);
+      logger.info(`payload: ${payload}`);
 
       mod = await Mod.findById(modId).exec();
 
