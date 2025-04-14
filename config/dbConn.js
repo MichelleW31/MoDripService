@@ -71,7 +71,9 @@ const connectDB = (wsServer) => {
           mod.humidity = roundHumidity(payload?.humidity);
         }
 
-        mod.modStatusTimestamp = timestamp;
+        if (payload?.moisture || payload?.temperature || payload?.humidity) {
+          mod.modStatusTimestamp = timestamp;
+        }
 
         await mod.save();
       }
