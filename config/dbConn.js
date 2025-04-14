@@ -52,21 +52,21 @@ const connectDB = (wsServer) => {
 
       const modId = topic.split('/')[2];
 
-      logger.info(`payload: ${payload}`);
+      logger.info(`payload: ${JSON.stringify(payload)}`);
 
       mod = await Mod.findById(modId).exec();
 
       if (mod) {
         if (payload?.moisture) {
-          mod.moisture = getMoisturePercentage(payload?.moisture);
+          mod.moisture = getMoisturePercentage(payload.moisture);
         }
 
         if (payload?.temperature) {
-          mod.temperature = convertToFahrenheit(payload?.temperature);
+          mod.temperature = convertToFahrenheit(payload.temperature);
         }
 
         if (payload?.humidity) {
-          mod.humidity = roundHumidity(payload?.humidity);
+          mod.humidity = roundHumidity(payload.humidity);
         }
 
         mod.modStatusTimestamp = timestamp;
