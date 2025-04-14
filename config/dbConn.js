@@ -44,8 +44,6 @@ const connectDB = (wsServer) => {
   });
 
   mqttClient.on('message', async (topic, message) => {
-    logger.info('Connected to MQTT Broker');
-
     let mod;
 
     try {
@@ -71,9 +69,7 @@ const connectDB = (wsServer) => {
           mod.humidity = roundHumidity(payload?.humidity);
         }
 
-        if (payload?.moisture || payload?.temperature || payload?.humidity) {
-          mod.modStatusTimestamp = timestamp;
-        }
+        mod.modStatusTimestamp = timestamp;
 
         await mod.save();
       }
