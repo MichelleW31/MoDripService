@@ -34,7 +34,7 @@ const connectDB = (wsServer) => {
 
   // MQTT BROKER CONNECTION
   const mqttClient = mqtt.connect(
-    '902e1d0dba3944fa88c5f6caac765b57.s1.eu.hivemq.cloud',
+    'mqtts://902e1d0dba3944fa88c5f6caac765b57.s1.eu.hivemq.cloud',
     { username: process.env.MQTT_USERNAME, password: process.env.MQTT_PASSWORD }
   );
 
