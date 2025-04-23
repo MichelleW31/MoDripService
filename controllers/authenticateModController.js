@@ -5,6 +5,7 @@ import axios from 'axios';
 import { admin } from '../FirebaseConfig.js';
 import logger from '../config/logger.js';
 
+// Dont think i'll need this
 export const authenticateMod = async (req, res) => {
   const { modId } = req.body;
 
