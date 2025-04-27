@@ -74,8 +74,6 @@ export const getModsByUserId = async (req, res) => {
 
     mods = await Mods.find({ userId });
 
-    logger.info(`mods, ${mods}`);
-
     if (!mods) {
       return res
         .status(404)
