@@ -10,17 +10,13 @@ export const setTargetData = async (req, res) => {
     modId,
   } = req.body;
 
-  // No mod id
-  if (!modId) {
-    return res.status(400).json({ message: 'Mod Id required' });
-  }
-
   // No target data
   if (
     !targetTemperatureMin ||
     !targetTemperatureMax ||
     !targetHumidityMin ||
-    !targetHumidityMax
+    !targetHumidityMax ||
+    !modId
   ) {
     return res.status(400).json({ message: 'Target Data required' });
   }
@@ -49,7 +45,7 @@ export const setTargetData = async (req, res) => {
       modId: modId,
     });
 
-    res.status(201).json({ success: 'Target data set!', targetData }); // Successful
+    // Successres.status(201).json({ success: 'Target data set!', targetData });ful
   } catch (error) {
     logger.error(`Error setting target data ${error}`);
 
