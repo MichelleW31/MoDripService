@@ -8,12 +8,14 @@ import verifyJWT from '../middleware/verifyJWT.js';
 import {
   addDripHistory,
   getDripHistoryById,
+  getAllDripHistory,
 } from '../controllers/dripHistoryController.js';
 
 const router = express.Router();
 
 router
   .route('/')
+  .get(verifyJWT, getAllDripHistory)
   .post(verifyJWT, dripHistoryValidationRules(), validate, addDripHistory);
 
 router

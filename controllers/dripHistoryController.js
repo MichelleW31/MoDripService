@@ -26,6 +26,22 @@ export const addDripHistory = async (req, res) => {
   }
 };
 
+export const getAllDripHistory = async (req, res) => {
+  let dripHistory;
+
+  try {
+    dripHistory = await DripHistory.find();
+
+    res.status(200).json(dripHistory);
+  } catch (error) {
+    logger.error(`Error getting drip history`);
+
+    return res
+      .status(500)
+      .json({ message: 'Error getting drip history. Try again later' });
+  }
+};
+
 export const getDripHistoryById = async (req, res) => {
   if (!req?.params?.modId) {
     return res.status(400).json({ message: 'Mod id is required' });
