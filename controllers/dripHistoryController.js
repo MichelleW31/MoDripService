@@ -2,11 +2,22 @@ import DripHistory from '../models/dripHistoryModel.js';
 import logger from '../config/logger.js';
 
 export const addDripHistory = async (req, res) => {
-  const { dripDuration, beforeDripMoisture, afterDripMoisture, modId } =
-    req.body;
+  const {
+    dripDuration,
+    beforeDripMoisture,
+    afterDripMoisture,
+    modId,
+    modName,
+  } = req.body;
 
   // No drip history data
-  if (!dripDuration || !beforeDripMoisture || !afterDripMoisture || !modId) {
+  if (
+    !dripDuration ||
+    !beforeDripMoisture ||
+    !afterDripMoisture ||
+    !modId ||
+    !modName
+  ) {
     return res.status(400).json({ message: 'Drip History Data required' });
   }
 
@@ -16,6 +27,7 @@ export const addDripHistory = async (req, res) => {
       beforeDripMoisture,
       afterDripMoisture,
       modId,
+      modName,
     });
 
     res.status(201).json({ success: 'Drip History Added!', dripHistory });

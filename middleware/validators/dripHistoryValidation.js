@@ -6,6 +6,7 @@ export const dripHistoryValidationRules = () => {
     body('beforeDripMoisture').trim().notEmpty().escape(),
     body('afterDripMoisture').trim().notEmpty().escape(),
     body('modId').trim().notEmpty().escape(),
+    body('modName').trim().notEmpty().escape(),
   ];
 };
 
