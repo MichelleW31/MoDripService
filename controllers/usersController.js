@@ -80,8 +80,6 @@ export const getUser = async (req, res) => {
 
     return res.status(500).json({ message: 'Error. Try again later' });
   }
-
-  res.json(user);
 };
 
 export const updateUser = async (req, res) => {
