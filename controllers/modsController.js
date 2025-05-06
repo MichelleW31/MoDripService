@@ -84,7 +84,7 @@ export const getModsByUserId = async (req, res) => {
   } catch (error) {
     logger.error(`Error getting mods by user id ${error}`);
 
-    return res.status(500).json({ message: 'Error. Try again later' });
+    return res.status(500).json({ message: 'Error. Please try again later' });
   }
 };
 

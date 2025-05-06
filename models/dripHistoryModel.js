@@ -20,6 +20,9 @@ const dripHistory = new mongoose.Schema(
     modName: {
       type: String,
     },
+    userId: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
