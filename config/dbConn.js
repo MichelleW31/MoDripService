@@ -51,10 +51,6 @@ const connectDB = (wsServer) => {
       const payload = JSON.parse(message.toString());
       const timestamp = Date.now();
 
-      if (topic.includes('status')) {
-        logger.info(`payload ${JSON.stringify(payload)}`);
-      }
-
       const modId = topic.split('/')[2];
 
       mod = await Mod.findById(modId).exec();
@@ -73,6 +69,7 @@ const connectDB = (wsServer) => {
         }
 
         if (payload?.sensorOn) {
+          logger.info(`payload ${JSON.stringify(payload)}`);
           mod.sensorOn = payload.sensorOn;
         }
 
