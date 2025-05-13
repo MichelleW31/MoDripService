@@ -69,11 +69,11 @@ const connectDB = (wsServer) => {
         }
 
         if (topic.includes('status')) {
-          logger.info(`payload ${JSON.stringify(payload.sensorOn)}`);
+          logger.info(`payload 1 ${JSON.stringify(payload?.sensorOn)}`);
         }
 
         if (payload?.sensorOn) {
-          logger.info(`payload ${JSON.stringify(payload)}`);
+          logger.info(`payload 2${JSON.stringify(payload)}`);
           mod.sensorOn = payload.sensorOn;
         }
 
