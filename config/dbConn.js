@@ -47,7 +47,9 @@ const connectDB = (wsServer) => {
   mqttClient.on('message', async (topic, message) => {
     let mod;
 
-    logger.info(`topic ${topic}`);
+    if (topic.includes('status')) {
+      logger.info(`topic ${topic}`);
+    }
 
     try {
       const payload = JSON.parse(message.toString());
