@@ -68,16 +68,12 @@ const connectDB = (wsServer) => {
           mod.humidity = roundHumidity(payload.humidity);
         }
 
-        if (topic.includes('status')) {
-          logger.info(`payload 1 ${JSON.stringify(payload?.sensorOn)}`);
-        }
-
-        if (payload?.sensorOn) {
-          logger.info(`payload 2${JSON.stringify(payload)}`);
+        if (payload?.sensorOn !== undefined) {
           mod.sensorOn = payload.sensorOn;
         }
 
         if (topic.includes('readings')) {
+          logger.info(`mod status time updated`);
           mod.modStatusTimestamp = timestamp;
         }
 
