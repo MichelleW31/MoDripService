@@ -30,6 +30,10 @@ const mod = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    sensorOn: {
+      type: Boolean,
+      required: true,
+    },
   },
   { timestamps: true }
 );

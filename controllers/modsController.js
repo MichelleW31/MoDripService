@@ -44,6 +44,7 @@ export const createMod = async (req, res) => {
       humidity: 0,
       userId,
       modStatusTimestamp: Date.now(),
+      sensorOn: false,
     });
 
     await mod.save();

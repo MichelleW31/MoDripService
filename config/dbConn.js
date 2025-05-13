@@ -41,18 +41,19 @@ const connectDB = (wsServer) => {
   mqttClient.on('connect', () => {
     logger.info('Connected to MQTT Broker');
     mqttClient.subscribe('mod/readings/+');
+    mqttClient.subscribe('mod/status/+');
   });
 
   mqttClient.on('message', async (topic, message) => {
     let mod;
+
+    logger.info(`topic ${topic}`);
 
     try {
       const payload = JSON.parse(message.toString());
       const timestamp = Date.now();
 
       const modId = topic.split('/')[2];
-
-      // logger.info(`payload: ${JSON.stringify(payload)}`);
 
       mod = await Mod.findById(modId).exec();
 
@@ -67,6 +68,10 @@ const connectDB = (wsServer) => {
 
         if (payload?.humidity) {
           mod.humidity = roundHumidity(payload.humidity);
+        }
+
+        if (payload?.sensorOn) {
+          mod.sensorOn = payload.sensorOn;
         }
 
         mod.modStatusTimestamp = timestamp;
