@@ -47,13 +47,13 @@ const connectDB = (wsServer) => {
   mqttClient.on('message', async (topic, message) => {
     let mod;
 
-    if (topic.includes('status')) {
-      logger.info(`topic ${topic}`);
-    }
-
     try {
       const payload = JSON.parse(message.toString());
       const timestamp = Date.now();
+
+      if (topic.includes('status')) {
+        logger.info(`payload ${payload}`);
+      }
 
       const modId = topic.split('/')[2];
 
@@ -76,7 +76,9 @@ const connectDB = (wsServer) => {
           mod.sensorOn = payload.sensorOn;
         }
 
-        mod.modStatusTimestamp = timestamp;
+        if (topic.includes('readings')) {
+          mod.modStatusTimestamp = timestamp;
+        }
 
         await mod.save();
       }
