@@ -52,7 +52,7 @@ const connectDB = (wsServer) => {
       const timestamp = Date.now();
 
       if (topic.includes('status')) {
-        logger.info(`payload ${payload}`);
+        logger.info(`payload ${JSON.stringify(payload)}`);
       }
 
       const modId = topic.split('/')[2];
