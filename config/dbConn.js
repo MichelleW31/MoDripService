@@ -68,6 +68,10 @@ const connectDB = (wsServer) => {
           mod.humidity = roundHumidity(payload.humidity);
         }
 
+        if (topic.includes('readings')) {
+          logger.info(`payload ${JSON.stringify(payload.sensorOn)}`);
+        }
+
         if (payload?.sensorOn) {
           logger.info(`payload ${JSON.stringify(payload)}`);
           mod.sensorOn = payload.sensorOn;
