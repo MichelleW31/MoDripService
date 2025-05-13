@@ -73,7 +73,6 @@ const connectDB = (wsServer) => {
         }
 
         if (topic.includes('readings')) {
-          logger.info(`mod status time updated`);
           mod.modStatusTimestamp = timestamp;
         }
 
