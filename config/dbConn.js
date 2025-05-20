@@ -99,7 +99,7 @@ const connectDB = (wsServer) => {
     const modChangeStream = Mod.watch();
 
     modChangeStream.on('change', (modsUpdate) => {
-      // logger.info('Change occurred in mods collection:', modsUpdate);
+      logger.info('Change occurred in mods collection:', modsUpdate);
 
       // Send change to connected clients
       wsServer.clients.forEach((client) => {
