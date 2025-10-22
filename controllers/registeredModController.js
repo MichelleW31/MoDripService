@@ -1,4 +1,4 @@
-import RegisteredMod from '../models/registeredModModel';
+import RegisteredMod from '../models/registeredModModel.js';
 import logger from '../config/logger.js';
 import { admin } from '../FirebaseConfig.js';
 
