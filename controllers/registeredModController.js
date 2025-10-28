@@ -54,3 +54,25 @@ export const registerMod = async (req, res) => {
     return res.status(500).json({ message: 'Error. Try again later' });
   }
 };
+
+export const getProvisionedMod = async (req, res) => {
+  const { setupKey } = req.params;
+
+  if (!setupKey) {
+    return res.status(400).json({ message: 'Setup Key is required' });
+  }
+
+  try {
+    const provisionedMod = await RegisteredMod.findOne({ setupKey });
+
+    if (!provisionedMod) {
+      return res.status(404).json({ message: 'Mod has not been provisioned' });
+    }
+
+    res.status(200).json({ provisionedMod });
+  } catch (error) {
+    logger.error(`Error fetching provisioned mod ${error}`);
+
+    return res.status(500).json({ message: 'Error. Try again later' });
+  }
+};
