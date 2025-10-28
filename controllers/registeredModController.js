@@ -1,8 +1,8 @@
-import RegisteredMod from '../models/registeredModModel.js';
+import ProvisionedMod from '../models/registeredModModel.js';
 import logger from '../config/logger.js';
 import { admin } from '../FirebaseConfig.js';
 
-export const registerMod = async (req, res) => {
+export const registerProvisionedMod = async (req, res) => {
   const { modId, setupKey } = req.body;
 
   // NO MODID OR SETUP KEY
@@ -25,7 +25,7 @@ export const registerMod = async (req, res) => {
     const userId = decodedToken.uid;
 
     // REGISTER PROVISIONED MOD
-    const provisionedMod = await RegisteredMod.findOne({ modId });
+    const provisionedMod = await ProvisionedMod.findOne({ modId });
 
     if (!provisionedMod) {
       return res
@@ -63,7 +63,7 @@ export const getProvisionedMod = async (req, res) => {
   }
 
   try {
-    const provisionedMod = await RegisteredMod.findOne({ setupKey });
+    const provisionedMod = await ProvisionedMod.findOne({ setupKey });
 
     if (!provisionedMod) {
       return res.status(404).json({ message: 'Mod has not been provisioned' });

@@ -4,12 +4,14 @@ import {
   registeredModValidationRules,
   setupKeyValidationRules,
 } from '../middleware/validators/registeredModValidation.js';
-import { registerMod } from '../controllers/registeredModController.js';
+import { registerProvisionedMod } from '../controllers/registeredModController.js';
 import { getProvisionedMod } from '../controllers/registeredModController.js';
 
 const router = express.Router();
 
-router.route('/').post(registeredModValidationRules(), validate, registerMod);
+router
+  .route('/')
+  .post(registeredModValidationRules(), validate, registerProvisionedMod);
 
 router
   .route('/:setupKey')
