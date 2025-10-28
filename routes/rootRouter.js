@@ -13,7 +13,7 @@ rootRouter.use('/mods', modsRoute);
 rootRouter.use('/target_data', targetDataRoutes);
 rootRouter.use('/authenticate_mod', authenticateModRoutes);
 rootRouter.use('/drip_history', dripHistoryRoutes);
-rootRouter.use('/register_mod', registeredModRoutes);
+rootRouter.use('/provisioned_mod', registeredModRoutes);
 
 rootRouter.get('/', (req, res) => {
   res.status(200).send('Welcome to MoDrip');
