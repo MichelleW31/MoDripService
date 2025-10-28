@@ -62,10 +62,10 @@ export const getProvisionedMod = async (req, res) => {
     return res.status(400).json({ message: 'Setup Key is required' });
   }
 
-  logger.info(`Fetching provisioned mod with setup key: ${setupKey}`);
-
   try {
     const provisionedMod = await ProvisionedMod.findOne({ setupKey });
+
+    logger.info(`Fetching provisioned mod with setup key: ${provisionedMod}`);
 
     if (!provisionedMod) {
       return res.status(404).json({ message: 'Mod has not been provisioned' });
