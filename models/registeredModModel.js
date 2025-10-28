@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
 
-const provisionedMods = new mongoose.Schema({
+const provisionedMod = new mongoose.Schema({
   modId: { type: String, required: true },
   claimedBy: { type: String },
   provisioned: { type: Boolean, default: false },
   setupKey: { type: String, required: true },
 });
 
-const ProvisionedMods = mongoose.model('ProvisionedMods', provisionedMods);
+const ProvisionedMod = mongoose.model('ProvisionedMod', provisionedMod);
 
-export default ProvisionedMods;
+export default ProvisionedMod;
