@@ -63,7 +63,7 @@ export const getProvisionedMod = async (req, res) => {
   }
 
   try {
-    const provisionedMod = await ProvisionedMod.findOne({ setupKey });
+    const provisionedMod = await ProvisionedMod.findOne({ setupKey }).exec();
 
     logger.info(`Fetching provisioned mod with setup key: ${provisionedMod}`);
 
