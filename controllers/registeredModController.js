@@ -2,6 +2,7 @@ import ProvisionedMods from '../models/registeredModModel.js';
 import Mods from '../models/modModel.js';
 import logger from '../config/logger.js';
 import { admin } from '../FirebaseConfig.js';
+import { getIdFromAccessToken } from '../util/accessToken.js';
 
 export const registerProvisionedMod = async (req, res) => {
   const { modId, setupKey, modName, modType } = req.body;
@@ -13,19 +14,9 @@ export const registerProvisionedMod = async (req, res) => {
     });
   }
 
-  // GET USER ID
-  const authHeader = req.headers.authorization || req.headers.Authorization;
-
-  if (!authHeader?.startsWith('Bearer ')) {
-    return res.sendStatus(401); // Unauthorized
-  }
-
-  const token = authHeader.split(' ')[1];
-
   try {
-    const decodedToken = await admin.auth().verifyIdToken(token);
-
-    const userId = decodedToken.uid;
+    // GET USER ID
+    const userId = await getIdFromAccessToken(res, req);
 
     // REGISTER PROVISIONED MOD
     const provisionedMod = await ProvisionedMods.findOne({ modId });

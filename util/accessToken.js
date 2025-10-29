@@ -4,7 +4,7 @@ import { admin } from '../FirebaseConfig.js';
 
 dotenv.config();
 
-export const getIdFromAccessToken = async (req) => {
+export const getIdFromAccessToken = async (res, req) => {
   let token;
 
   if (
@@ -17,5 +17,7 @@ export const getIdFromAccessToken = async (req) => {
     const decodedToken = await admin.auth().verifyIdToken(token);
 
     return decodedToken.uid;
+  } else {
+    return res.status(401).send({ message: 'Unauthorized' }); // Unauthorized
   }
 };
