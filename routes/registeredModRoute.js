@@ -6,15 +6,21 @@ import {
 } from '../middleware/validators/registeredModValidation.js';
 import { registerProvisionedMod } from '../controllers/registeredModController.js';
 import { getProvisionedMod } from '../controllers/registeredModController.js';
+import verifyJWT from '../middleware/verifyJWT.js';
 
 const router = express.Router();
 
 router
   .route('/')
-  .post(registeredModValidationRules(), validate, registerProvisionedMod);
+  .post(
+    verifyJWT,
+    registeredModValidationRules(),
+    validate,
+    registerProvisionedMod
+  );
 
 router
   .route('/:setupKey')
-  .get(setupKeyValidationRules(), validate, getProvisionedMod);
+  .get(verifyJWT, setupKeyValidationRules(), validate, getProvisionedMod);
 
 export default router;

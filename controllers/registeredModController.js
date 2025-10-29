@@ -1,13 +1,16 @@
 import ProvisionedMods from '../models/registeredModModel.js';
+import Mods from '../models/modModel.js';
 import logger from '../config/logger.js';
 import { admin } from '../FirebaseConfig.js';
 
 export const registerProvisionedMod = async (req, res) => {
-  const { modId, setupKey } = req.body;
+  const { modId, setupKey, modName, modType } = req.body;
 
   // NO MODID OR SETUP KEY
-  if (!modId || !setupKey) {
-    return res.status(400).json({ message: 'Mod ID and Setup Key required' });
+  if (!modId || !setupKey || !modName || !modType) {
+    return res.status(400).json({
+      message: 'Mod ID, Setup Key, Mod Name, and Mod Type are required',
+    });
   }
 
   // GET USER ID
@@ -35,21 +38,40 @@ export const registerProvisionedMod = async (req, res) => {
 
     // If already claimed, prevent double-claim
     if (provisionedMod.claimedBy) {
-      return res.status(403).json({ error: 'Device already claimed' });
+      return res.status(403).json({ error: 'Mod already claimed' });
     }
 
-    // put in middleware
     if (provisionedMod.setupKey !== setupKey) {
       return res.status(403).json({ message: 'Invalid Setup Key' });
     }
 
     provisionedMod.claimedBy = userId;
 
-    await provisionedMod.save();
+    // CREATE MOD RECORD
+    const duplicate = await Mods.findOne({ modId }).exec();
 
-    res.status(200).json({ success: 'Mod Registered!', provisionedMod });
+    if (duplicate) {
+      return res.status(409).json({ message: 'Mod already exists' });
+    }
+
+    // Create and store the new mod
+    const mod = await Mods.create({
+      modName,
+      modType,
+      temperature: 0,
+      moisture: 0,
+      humidity: 0,
+      userId,
+      modStatusTimestamp: Date.now(),
+      sensorOn: false,
+    });
+
+    await provisionedMod.save();
+    await mod.save();
+
+    res.status(200).json({ success: 'Mod Registered!', provisionedMod, mod });
   } catch (error) {
-    logger.error(`Error registering mod ${error}`);
+    logger.error(`Error registering/creating new mod ${error}`);
 
     return res.status(500).json({ message: 'Error. Try again later' });
   }

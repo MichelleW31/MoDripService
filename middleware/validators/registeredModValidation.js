@@ -4,6 +4,8 @@ export const registeredModValidationRules = () => {
   return [
     body('modId').trim().notEmpty().escape(),
     body('setupKey').trim().notEmpty().escape(),
+    body('modName').trim().notEmpty().escape(),
+    body('modType').trim().notEmpty().escape(),
   ];
 };
 
