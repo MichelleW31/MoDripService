@@ -1,6 +1,6 @@
 import express from 'express';
 import {
-  createMod,
+  // createMod,
   getModsByUserId,
   updateMod,
   deleteMod,
@@ -17,8 +17,8 @@ const router = express.Router();
 router
   .route('/')
   //   .get(verifyJWT, getMods)
-  .get(verifyJWT, getModsByUserId)
-  .post(verifyJWT, createModValidationRules(), validate, createMod);
+  .get(verifyJWT, getModsByUserId);
+// .post(verifyJWT, createModValidationRules(), validate, createMod);
 
 router
   .route('/:id')
