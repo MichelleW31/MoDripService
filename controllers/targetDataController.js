@@ -11,7 +11,6 @@ export const setTargetData = async (req, res) => {
   } = req.body;
 
   logger.info(
-    'body',
     targetTemperatureMin,
     targetTemperatureMax,
     targetHumidityMin,
