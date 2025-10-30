@@ -81,7 +81,7 @@ export const getProvisionedMod = async (req, res) => {
     }
 
     if (provisionedMod.claimedBy) {
-      return res.status(403).json({ message: 'Mod has already been claimed' });
+      return res.status(409).json({ message: 'Mod has already been claimed' });
     }
 
     res.status(200).json({ provisionedMod });
