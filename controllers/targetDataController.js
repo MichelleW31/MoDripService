@@ -10,14 +10,6 @@ export const setTargetData = async (req, res) => {
     modId,
   } = req.body;
 
-  logger.info(
-    targetTemperatureMin,
-    targetTemperatureMax,
-    targetHumidityMin,
-    targetHumidityMax,
-    modId
-  );
-
   // No target data
   if (
     !targetTemperatureMin ||
@@ -38,13 +30,7 @@ export const setTargetData = async (req, res) => {
         .status(409)
         .json({ message: 'Target data already exists for this mod' }); // Conflict error code
     }
-  } catch (error) {
-    logger.error(`Error setting target data ${error}`);
 
-    return res.status(500).json({ message: 'Error. Try again later' });
-  }
-
-  try {
     await TargetData.create({
       targetTemperatureMin,
       targetTemperatureMax,
@@ -53,13 +39,11 @@ export const setTargetData = async (req, res) => {
       modId: modId,
     });
 
-    // Successres.status(201).json({ success: 'Target data set!', targetData });ful
+    res.status(204).json({ success: 'Target data set!' });
   } catch (error) {
     logger.error(`Error setting target data ${error}`);
 
-    res
-      .status(500)
-      .json({ message: `Error setting target data: ${error.message}` }); // Server error code
+    return res.status(500).json({ message: 'Error. Try again later' });
   }
 };
 
