@@ -10,7 +10,7 @@ export const setTargetData = async (req, res) => {
     modId,
   } = req.body;
 
-  logger.info('body', req.body);
+  logger.info('body', req);
 
   // No target data
   if (
