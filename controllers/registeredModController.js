@@ -27,11 +27,6 @@ export const registerProvisionedMod = async (req, res) => {
         .json({ message: 'Mod not found or not provisioned' });
     }
 
-    // If already claimed, prevent double-claim
-    if (provisionedMod.claimedBy) {
-      return res.status(403).json({ error: 'Mod already claimed' });
-    }
-
     if (provisionedMod.setupKey !== setupKey) {
       return res.status(403).json({ message: 'Invalid Setup Key' });
     }
@@ -81,10 +76,12 @@ export const getProvisionedMod = async (req, res) => {
       setupKey: setupKey,
     }).exec();
 
-    logger.info(`provisionedMod: ${provisionedMod}`);
-
     if (!provisionedMod) {
       return res.status(404).json({ message: 'Mod has not been provisioned' });
+    }
+
+    if (provisionedMod.claimedBy) {
+      return res.status(403).json({ message: 'Mod has already been claimed' });
     }
 
     res.status(200).json({ provisionedMod });
