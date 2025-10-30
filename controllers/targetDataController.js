@@ -10,6 +10,8 @@ export const setTargetData = async (req, res) => {
     modId,
   } = req.body;
 
+  logger.info('body', req.body);
+
   // No target data
   if (
     !targetTemperatureMin ||
@@ -37,7 +39,7 @@ export const setTargetData = async (req, res) => {
   }
 
   try {
-    const targetData = await TargetData.create({
+    await TargetData.create({
       targetTemperatureMin,
       targetTemperatureMax,
       targetHumidityMin,
