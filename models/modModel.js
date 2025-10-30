@@ -10,6 +10,10 @@ const mod = new mongoose.Schema(
       type: String,
       required: true,
     },
+    modId: {
+      type: String,
+      required: true,
+    },
     temperature: {
       type: Number,
       required: true,

@@ -49,6 +49,7 @@ export const registerProvisionedMod = async (req, res) => {
     const mod = await Mods.create({
       modName,
       modType,
+      modId,
       temperature: 0,
       moisture: 0,
       humidity: 0,

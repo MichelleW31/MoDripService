@@ -19,7 +19,7 @@ const verifyJWT = async (req, res, next) => {
 
     req.user = decodedToken;
 
-    // logger.info(`Auth Token verified ${token}`);
+    logger.info(`Auth Token verified ${token}`);
   } catch (error) {
     logger.error(`Jwt error ${error}`);
 
