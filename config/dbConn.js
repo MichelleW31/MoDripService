@@ -100,6 +100,8 @@ const connectDB = (wsServer) => {
 
     modChangeStream.on('change', (modsUpdate) => {
       // Send change to connected clients
+
+      logger.info('modsUpdate', modsUpdate);
       wsServer.clients.forEach((client) => {
         logger.info('Change occurred in mods collection:', client);
         if (client.readyState === WebSocket.OPEN) {
