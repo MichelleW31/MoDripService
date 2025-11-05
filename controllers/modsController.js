@@ -102,7 +102,7 @@ export const updateMod = async (req, res) => {
   let mod;
 
   try {
-    mod = await Mods.findById(id).exec();
+    mod = await Mods.findById({ modId: id }).exec();
 
     // No mod found
     if (!mod) {
