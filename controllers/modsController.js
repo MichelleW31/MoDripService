@@ -2,10 +2,10 @@
 
 // CUSTOM MODULES
 import Mods from '../models/modModel.js';
-import { getIdFromAccessToken } from '../util/accessToken.js';
+import TargetData from '../models/targetDataModel.js';
+import ProvisionedMods from '../models/registeredModModel.js';
 import logger from '../config/logger.js';
 import { admin } from '../FirebaseConfig.js';
-import TargetData from '../models/targetDataModel.js';
 
 export const getModsByUserId = async (req, res) => {
   const authHeader = req.headers.authorization || req.headers.Authorization;
@@ -86,12 +86,15 @@ export const deleteMod = async (req, res) => {
   const { id } = req.params;
 
   let mod;
+  let provisionedMod;
 
   try {
     mod = await Mods.findOne({ modId: id }).exec();
 
+    provisionedMod = await ProvisionedMods.findOne({ modId: id }).exec();
+
     // No mod found
-    if (!mod) {
+    if (!mod || !provisionedMod) {
       return res.status(404).json({ message: 'No Mod Found' });
     }
 
@@ -99,6 +102,10 @@ export const deleteMod = async (req, res) => {
 
     // Delete if mod found
     await Mods.deleteOne({ modId: id });
+
+    provisionedMod.claimedBy = undefined;
+
+    await provisionedMod.save();
 
     res.status(200).json({ message: 'Mod deleted' });
   } catch (error) {

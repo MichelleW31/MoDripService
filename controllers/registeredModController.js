@@ -1,7 +1,6 @@
 import ProvisionedMods from '../models/registeredModModel.js';
 import Mods from '../models/modModel.js';
 import logger from '../config/logger.js';
-import { admin } from '../FirebaseConfig.js';
 import { getIdFromAccessToken } from '../util/accessToken.js';
 
 export const registerProvisionedMod = async (req, res) => {
