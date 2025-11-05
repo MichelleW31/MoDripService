@@ -88,7 +88,7 @@ export const deleteMod = async (req, res) => {
   let mod;
 
   try {
-    mod = await Mods.findById(id).exec();
+    mod = await Mods.findOne({ modId: id }).exec();
 
     // No mod found
     if (!mod) {
@@ -98,7 +98,7 @@ export const deleteMod = async (req, res) => {
     await TargetData.deleteOne({ modId: id });
 
     // Delete if mod found
-    await Mods.deleteOne({ _id: id });
+    await Mods.deleteOne({ modId: id });
 
     res.status(200).json({ message: 'Mod deleted' });
   } catch (error) {
