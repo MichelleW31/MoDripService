@@ -103,7 +103,7 @@ export const deleteMod = async (req, res) => {
     // Delete if mod found
     await Mods.deleteOne({ modId: id });
 
-    provisionedMod.claimedBy = undefined;
+    provisionedMod.claimedBy = null;
 
     await provisionedMod.save();
 

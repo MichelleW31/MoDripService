@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const provisionedMod = new mongoose.Schema({
   modId: { type: String, required: true },
-  claimedBy: { type: String },
+  claimedBy: { type: String, default: null },
   provisioned: { type: Boolean, default: false },
   setupKey: { type: String, required: true },
 });
