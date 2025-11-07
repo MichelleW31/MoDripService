@@ -53,7 +53,7 @@ const connectDB = (wsServer) => {
 
       const modId = topic.split('/')[2];
 
-      mod = await Mod.findById(modId).exec();
+      mod = await Mod.findOne({ modId: modId }).exec();
 
       if (mod) {
         if (payload?.moisture) {
