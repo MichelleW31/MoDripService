@@ -28,8 +28,33 @@ const connectDB = (wsServer) => {
 
   const connection = mongoose.connection;
 
+  // WEBSERVER CONNECTION
+  wsServer.on('connection', (ws) => {
+    logger.info('Client connected to WebSocket');
+
+    // WebSocket close event handler
+    ws.on('close', () => {
+      logger.info('Client disconnected from WebSocket');
+    });
+  });
+
   connection.once('open', () => {
     logger.info('MongoDB database connection established successfully');
+
+    // Watch the Mod database for changes
+    const modChangeStream = Mod.watch();
+
+    modChangeStream.on('change', (modsUpdate) => {
+      // Send change to connected clients
+      logger.info('modsUpdate', modsUpdate);
+
+      wsServer.clients.forEach((client) => {
+        logger.info('Change occurred in mods collection:', client);
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify(modsUpdate));
+        }
+      });
+    });
   });
 
   // MQTT BROKER CONNECTION
@@ -81,34 +106,6 @@ const connectDB = (wsServer) => {
     } catch (error) {
       logger.error(`"Error handling MQTT message:" ${error}`);
     }
-  });
-
-  // WEBSERVER CONNECTION
-  wsServer.on('connection', (ws) => {
-    logger.info('Client connected to WebSocket');
-
-    // WebSocket close event handler
-    ws.on('close', () => {
-      logger.info('Client disconnected from WebSocket');
-    });
-  });
-
-  // Change stream event handlers
-  connection.once('open', () => {
-    // // Define change stream on a Mongoose model
-    const modChangeStream = Mod.watch();
-
-    modChangeStream.on('change', (modsUpdate) => {
-      // Send change to connected clients
-
-      logger.info('modsUpdate', modsUpdate);
-      wsServer.clients.forEach((client) => {
-        logger.info('Change occurred in mods collection:', client);
-        if (client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify(modsUpdate));
-        }
-      });
-    });
   });
 };
 
