@@ -12,7 +12,7 @@ import {
   getMoisturePercentage,
   roundHumidity,
 } from '../middleware/convertSensorReadings.js';
-import startModChangeStream from '../util/modStreams.js';
+import { startModChangeStream } from '../util/modStreams.js';
 
 dotenv.config();
 
