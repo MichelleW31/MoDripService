@@ -12,6 +12,7 @@ import {
   getMoisturePercentage,
   roundHumidity,
 } from '../middleware/convertSensorReadings.js';
+import startModChangeStream from '../util/modStreams.js';
 
 dotenv.config();
 
@@ -32,39 +33,52 @@ const connectDB = (wsServer) => {
   wsServer.on('connection', (ws) => {
     logger.info('Client connected to WebSocket');
 
+    ws.isAlive = true;
+
+    ws.on('pong', () => {
+      ws.isAlive = true;
+    });
+
     // WebSocket close event handler
     ws.on('close', () => {
       logger.info('Client disconnected from WebSocket');
     });
+
+    ws.on('error', (error) => {
+      logger.error(`WebSocket error: ${error}`);
+    });
   });
+
+  setInterval(() => {
+    wsServer.clients.forEach((client) => {
+      if (client.isAlive === false) {
+        logger.info('Terminating dead WebSocket client');
+        return client.terminate();
+      }
+
+      client.isAlive = false;
+      client.ping();
+    });
+  }, 30000);
 
   connection.once('open', () => {
     logger.info('MongoDB database connection established successfully');
 
-    // Watch the Mod database for changes
-    const modChangeStream = Mod.watch();
-
-    modChangeStream.on('change', (modsUpdate) => {
-      // Send change to connected clients
-      logger.info('modsUpdate', modsUpdate);
-
-      wsServer.clients.forEach((client) => {
-        logger.info('Change occurred in mods collection:', client);
-        if (client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify(modsUpdate));
-        }
-      });
-    });
+    startModChangeStream(wsServer);
   });
 
   // MQTT BROKER CONNECTION
   const mqttClient = mqtt.connect(
     'mqtts://902e1d0dba3944fa88c5f6caac765b57.s1.eu.hivemq.cloud',
-    { username: process.env.MQTT_USERNAME, password: process.env.MQTT_PASSWORD }
+    {
+      username: process.env.MQTT_USERNAME,
+      password: process.env.MQTT_PASSWORD,
+    },
   );
 
   mqttClient.on('connect', () => {
     logger.info('Connected to MQTT Broker');
+
     mqttClient.subscribe('mod/readings/+');
     mqttClient.subscribe('mod/status/+');
   });
@@ -106,6 +120,22 @@ const connectDB = (wsServer) => {
     } catch (error) {
       logger.error(`"Error handling MQTT message:" ${error}`);
     }
+  });
+
+  mqttClient.on('reconnect', () => {
+    logger.info('MQTT reconnecting...');
+  });
+
+  mqttClient.on('close', () => {
+    logger.warn('MQTT connection closed');
+  });
+
+  mqttClient.on('offline', () => {
+    logger.warn('MQTT client offline');
+  });
+
+  mqttClient.on('error', (error) => {
+    logger.error(`MQTT error: ${error}`);
   });
 };
 
