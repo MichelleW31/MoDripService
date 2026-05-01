@@ -1,6 +1,7 @@
 // CUSTOM MODULES
 import logger from '../config/logger.js';
 import Mod from '../models/modModel.js';
+import { WebSocket } from 'ws';
 
 export const startModChangeStream = (wsServer) => {
   logger.info('Starting Mod change stream');
