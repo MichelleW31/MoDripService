@@ -76,16 +76,42 @@ export const getProvisionedMod = async (req, res) => {
     }).exec();
 
     if (!provisionedMod) {
-      return res.status(404).json({ message: 'Mod has not been provisioned' });
-    }
-
-    if (provisionedMod.claimedBy) {
-      return res.status(409).json({ message: 'Mod has already been claimed' });
+      return res.status(404).json({ message: 'Invalid Setup Key' });
     }
 
     res.status(200).json({ provisionedMod });
   } catch (error) {
     logger.error(`Error fetching provisioned mod ${error}`);
+
+    return res.status(500).json({ message: 'Error. Try again later' });
+  }
+};
+
+export const checkSetupKey = async (req, res) => {
+  const { setupKey } = req.params;
+
+  if (!setupKey) {
+    return res.status(400).json({ message: 'Setup Key is required' });
+  }
+
+  try {
+    const provisionedMod = await ProvisionedMods.findOne({
+      setupKey: setupKey,
+    }).exec();
+
+    if (!provisionedMod) {
+      return res.status(404).json({ message: 'Invalid Setup Key' });
+    }
+
+    if (provisionedMod.claimedBy) {
+      return res
+        .status(409)
+        .json({ message: 'Setup Key has already been used' });
+    }
+
+    res.status(200).json({ provisionedMod });
+  } catch (error) {
+    logger.error(`Error checking setup key ${error}`);
 
     return res.status(500).json({ message: 'Error. Try again later' });
   }

@@ -4,8 +4,11 @@ import {
   registeredModValidationRules,
   setupKeyValidationRules,
 } from '../middleware/validators/registeredModValidation.js';
-import { registerProvisionedMod } from '../controllers/registeredModController.js';
-import { getProvisionedMod } from '../controllers/registeredModController.js';
+import {
+  registerProvisionedMod,
+  getProvisionedMod,
+  checkSetupKey,
+} from '../controllers/registeredModController.js';
 import verifyJWT from '../middleware/verifyJWT.js';
 
 const router = express.Router();
@@ -16,8 +19,12 @@ router
     verifyJWT,
     registeredModValidationRules(),
     validate,
-    registerProvisionedMod
+    registerProvisionedMod,
   );
+
+router
+  .route('/checkSetupKey/:setupKey')
+  .post(verifyJWT, setupKeyValidationRules(), validate, checkSetupKey);
 
 router
   .route('/:setupKey')
