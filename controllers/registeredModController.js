@@ -76,7 +76,7 @@ export const getProvisionedMod = async (req, res) => {
     }).exec();
 
     if (!provisionedMod) {
-      return res.status(404).json({ message: 'Invalid Setup Key' });
+      return res.status(404).json({ message: 'No Mod Found' });
     }
 
     res.status(200).json({ provisionedMod });
@@ -90,8 +90,6 @@ export const getProvisionedMod = async (req, res) => {
 export const checkSetupKey = async (req, res) => {
   const { setupKey } = req.params;
 
-  logger.info(`Checking setup key: ${setupKey}`);
-
   if (!setupKey) {
     return res.status(400).json({ message: 'Setup Key is required' });
   }
@@ -100,8 +98,6 @@ export const checkSetupKey = async (req, res) => {
     const provisionedMod = await ProvisionedMods.findOne({
       setupKey: setupKey,
     }).exec();
-
-    logger.info(`Provisioned Mod: ${provisionedMod}`);
 
     if (!provisionedMod) {
       return res.status(404).json({ message: 'Invalid Setup Key' });

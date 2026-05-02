@@ -24,7 +24,7 @@ router
 
 router
   .route('/checkSetupKey/:setupKey')
-  .post(verifyJWT, setupKeyValidationRules(), validate, checkSetupKey);
+  .get(verifyJWT, setupKeyValidationRules(), validate, checkSetupKey);
 
 router
   .route('/:setupKey')
