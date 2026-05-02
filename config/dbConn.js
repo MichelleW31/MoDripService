@@ -2,7 +2,6 @@
 import mongoose from 'mongoose';
 import mqtt from 'mqtt';
 import * as dotenv from 'dotenv';
-import { WebSocket } from 'ws';
 
 // CUSTOM MODULES
 import logger from './logger.js';
